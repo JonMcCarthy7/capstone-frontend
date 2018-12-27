@@ -17,13 +17,10 @@ export default {
       //
     };
   },
-  created() {
+  beforeMount() {
     let exposedRoutes = ["/log_in", "/register"];
     let pathname = this.$router.history.current.path;
     if (exposedRoutes.indexOf(pathname) < 0) this.$store.dispatch(CHECK_AUTH);
-  },
-  mounted() {
-    console.log(this.$store.state.auth);
   }
 };
 </script>

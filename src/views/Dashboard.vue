@@ -1,5 +1,5 @@
 <template>
-  <div>YOU MADE IT! {{user}}</div>
+  <div>YOU MADE IT! {{this.$store.state.auth.user.username}}</div>
 </template>
 
 <script>
@@ -8,9 +8,6 @@ export default {
     return {
       user: ""
     };
-  },
-  created() {
-    console.log(this.$store.state.auth);
   }
 };
 </script>

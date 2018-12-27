@@ -38,16 +38,18 @@ const actions = {
       });
   },
   [CHECK_AUTH]({ commit }) {
+    // if (state.token) {
     axios
       .get("/user")
       .then(data => {
-        console.log("CHECK", data.data);
-
         commit(VERIFY_USER, data.data);
       })
       .catch(err => {
         console.log(err.response.data.message);
       });
+    // } else {
+    //   console.log("ERROR, no token");
+    // }
   }
 };
 
@@ -59,7 +61,7 @@ const mutations = {
     state.token = payload.token;
   },
   [VERIFY_USER](state, payload) {
-    state = { ...state, user: payload };
+    state.user = payload;
   }
 };
 
