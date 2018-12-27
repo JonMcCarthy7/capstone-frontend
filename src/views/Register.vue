@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md>
     <v-form ref="form" v-model="valid" lazy-validation>
-      <v-text-field v-model="name" :rules="nameRules" :counter="10" label="Name" required></v-text-field>
+      <v-text-field v-model="username" :rules="nameRules" :counter="15" label="Username" required></v-text-field>
       <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
       <v-layout row wrap>
         <v-flex xs12 md6>
@@ -10,7 +10,7 @@
             :append-icon="show1 ? 'visibility_off' : 'visibility'"
             :rules="[rules.required, rules.min]"
             :type="show1 ? 'text' : 'password'"
-            name="input-10-1"
+            name="password1"
             label="Password"
             hint="At least 8 characters"
             counter
@@ -23,11 +23,10 @@
           <v-text-field
             v-model="password2"
             :append-icon="show2 ? 'visibility_off' : 'visibility'"
-            :rules="[rules.required, rules.min]"
+            :rules="[rules.required]"
             :type="show2 ? 'text' : 'password'"
-            name="input-10-2"
+            name="password2"
             label="Confirm Password"
-            hint="At least 8 characters"
             counter
             required
             class="input-group--focused"
@@ -42,22 +41,21 @@
   </v-container>
 </template>
 <script>
-import axios from "axios";
-import { log } from "util";
+import { REGISTER } from "@/store/actions.type";
 
 export default {
   data: () => ({
     valid: true,
-    name: "",
     show1: false,
     show2: false,
+    username: "",
     password1: "",
     password2: "",
-    nameRules: [
-      v => !!v || "Name is required",
-      v => (v && v.length <= 10) || "Name must be less than 10 characters"
-    ],
     email: "",
+    nameRules: [
+      v => !!v || "User Name is required",
+      v => (v && v.length <= 15) || "Name must be less than 10 characters"
+    ],
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+/.test(v) || "E-mail must be valid"
@@ -71,15 +69,15 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        console.log("IT posted");
-
-        // Native form submission is not yet supported
-        // axios.post("/api/submit", {
-        //   name: this.name,
-        //   email: this.email,
-        //   select: this.select,
-        //   checkbox: this.checkbox
-        // });
+        console.log(this.$store);
+        this.$store
+          .dispatch(REGISTER, {
+            username: this.username,
+            email: this.email,
+            password: this.password1
+          })
+          .then(() => this.$router.push({ name: "log_in" }))
+          .catch(err => console.log(err));
       }
     },
     clear() {
