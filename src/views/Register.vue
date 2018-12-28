@@ -69,7 +69,6 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        console.log(this.$store);
         this.$store
           .dispatch(REGISTER, {
             username: this.username,
