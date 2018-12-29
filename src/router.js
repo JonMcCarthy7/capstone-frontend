@@ -4,6 +4,7 @@ import LogIn from "./views/LogIn.vue";
 import Register from "./views/Register.vue";
 import Dashboard from "./views/Dashboard.vue";
 import AddCoffee from "./views/AddCoffee.vue";
+import AddTasting from "./views/AddTasting.vue";
 
 Vue.use(Router);
 
@@ -39,6 +40,14 @@ export default new Router({
       path: "/add_coffee",
       name: "add_coffee",
       component: AddCoffee,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/add_tasting",
+      name: "add_tasting",
+      component: AddTasting,
       meta: {
         requiresAuth: true
       }

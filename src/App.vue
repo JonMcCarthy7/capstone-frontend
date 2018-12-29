@@ -17,10 +17,12 @@ export default {
       //
     };
   },
-  beforeMount() {
+  beforeCreate() {
     let exposedRoutes = ["/log_in", "/register"];
     let pathname = this.$router.history.current.path;
-    if (exposedRoutes.indexOf(pathname) < 0) this.$store.dispatch(CHECK_AUTH);
+
+    if (exposedRoutes.indexOf(pathname) < 0)
+      this.$store.dispatch(CHECK_AUTH) && console.log("RAN CHECK_AUTH");
   }
 };
 </script>

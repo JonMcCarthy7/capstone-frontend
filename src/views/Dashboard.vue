@@ -1,5 +1,10 @@
 <template>
-  <div>YOU MADE IT! {{this.$store.state.auth.user.username}}</div>
+  <div v-if="this.$store.state.auth.user.id">
+    <div>YOU MADE IT! {{this.$store.state.auth.user.username}}</div>
+    <ul v-if="coffee" v-for="c in coffee">
+      <li>{{c.coffee_name}}</li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -16,9 +21,16 @@ export default {
   },
   methods: {},
   created() {
-    console.log("FUCKING STATE DONT LOAD IN", this.$store.state.auth.user.id);
+    console.log(this.$store.state.auth.user.id);
 
-    this.$store.dispatch(GET_COFFEE, 1);
+    this.$store.dispatch(GET_COFFEE, this.$store.state.auth.user.id);
   }
 };
+
+// beforeRouteEnter(to, from, next) {
+//   Promise.all([this.$store.dispatch(GET_COFFEE)]).then(() => {
+//     next();
+//   });
+// }
 </script>
+

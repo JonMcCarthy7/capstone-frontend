@@ -31,7 +31,7 @@ const actions = {
       .post("/sessions", payload)
       .then(data => {
         // console.log(data.data.user);
-        return commit(SET_AUTH, data.data);
+        commit(SET_AUTH, data.data);
       })
       .catch(err => {
         console.log(err.response.data.message);

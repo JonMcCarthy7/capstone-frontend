@@ -36,8 +36,7 @@
 <script>
 import origins from "@/assets/coffee_origins";
 import methods from "@/assets/coffee_methods";
-import { ADD_COFFEE } from "@/store/actions.type";
-import { log } from "util";
+import { ADD_COFFEE_SUCCESS } from "@/store/actions.type";
 
 export default {
   data: () => ({
@@ -62,7 +61,7 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         this.$store
-          .dispatch(ADD_COFFEE, {
+          .dispatch(ADD_COFFEE_SUCCESS, {
             users_id: this.$store.state.auth.user.id,
             coffee_name: this.coffee_name,
             origin: this.origin,

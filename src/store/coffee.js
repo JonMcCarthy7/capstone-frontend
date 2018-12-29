@@ -1,5 +1,5 @@
-import { ADD_COFFEE, GET_COFFEE } from "./actions.type";
-import { ADD_COFFEE_STATE } from "./mutations.type";
+import { ADD_COFFEE_SUCCESS, GET_COFFEE } from "./actions.type";
+import { ADD_COFFEE, SET_COFFEE } from "./mutations.type";
 import axios from "@/axios";
 
 const state = {
@@ -13,21 +13,24 @@ const getters = {
 };
 
 const actions = {
-  [ADD_COFFEE]({ commit }, coffee) {
+  [ADD_COFFEE_SUCCESS]({ commit }, coffee) {
     axios
       .post("/coffee", coffee)
       .then(data => {
-        commit(ADD_COFFEE_STATE, data.data.coffee);
+        console.log("ADDED COFFEE", data.data.coffee[0]);
+        // commit(ADD_COFFEE, data.data.coffee[0]);
       })
       .catch(err => {
         console.log(err);
       });
   },
-  [GET_COFFEE]({ commit }, users_id) {
+  [GET_COFFEE]({ commit }, user_id) {
+    console.log("USER", user_id);
+
     axios
-      .get(`/users/${users_id}/coffee`)
+      .get(`/users/1/coffee`)
       .then(data => {
-        commit(ADD_COFFEE_STATE, data.data);
+        commit(SET_COFFEE, data.data);
       })
       .catch(err => {
         console.log(err);
@@ -36,8 +39,11 @@ const actions = {
 };
 
 const mutations = {
-  [ADD_COFFEE_STATE](state, payload) {
-    state.coffee = [...payload, ...state.coffee];
+  // [ADD_COFFEE](state, payload) {
+  //   state.coffee = [payload, ...state];
+  // },
+  [SET_COFFEE](state, payload) {
+    state.coffee = payload;
   }
 };
 
