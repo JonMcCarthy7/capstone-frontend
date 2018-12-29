@@ -21,8 +21,6 @@ export default {
   },
   methods: {},
   created() {
-    console.log(this.$store.state.auth.user.id);
-
     this.$store.dispatch(GET_COFFEE, this.$store.state.auth.user.id);
   }
 };

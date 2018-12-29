@@ -69,7 +69,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { GET_TASTING_NOTES_SUCCESS } from "@/store/actions.type";
+import { GET_TASTING_NOTES_SUCCESS, ADD_TASTING } from "@/store/actions.type";
 
 export default {
   data: () => ({
@@ -97,16 +97,22 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         this.$store
-          .dispatch(ADD_COFFEE_SUCCESS, {
-            users_id: this.$store.state.auth.user.id,
-            coffee_name: this.coffee_name,
-            origin: this.origin,
-            shop: this.shop,
-            region: this.region,
-            altitude: this.altitude,
-            processing_method: this.processing_method,
-            varietal: this.varietal,
-            notes: this.notes
+          .dispatch(ADD_TASTING, {
+            users_id: 1,
+            coffee_id: 1,
+            tasting: {
+              brew_method: this.brew_method,
+              favorite: this.favorite,
+              rating: this.rating,
+              body: this.body,
+              acidity: this.acidity,
+              sweetness: this.sweetness,
+              smoothness: this.smoothness,
+              tasting_date: this.tasting_date,
+              roasting_profile: this.roasting_profile,
+              description: this.description
+            },
+            tasting_ids: this.tastings
           })
           .then(() => this.$router.push({ name: "dashboard" }))
           .catch(err => console.log(err));

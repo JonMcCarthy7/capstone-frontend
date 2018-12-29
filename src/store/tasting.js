@@ -1,4 +1,4 @@
-import { GET_TASTING_NOTES_SUCCESS } from "./actions.type";
+import { GET_TASTING_NOTES_SUCCESS, ADD_TASTING } from "./actions.type";
 import { SET_TASTING_NOTES } from "./mutations.type";
 import axios from "@/axios";
 
@@ -23,7 +23,25 @@ const actions = {
         console.log(err);
       });
   },
-  [ADD_TASTING]
+  [ADD_TASTING]({ commit }, data) {
+    console.log(data);
+    axios
+      .post(
+        `/users/${data.users_id}/coffee/${data.coffee_id}/tastings`,
+        data.tasting
+      )
+      .then(tasting_id => {
+        console.log("TASTING ID", tasting_id.data.id[0]);
+        axios
+          .post(
+            `/tastings_tasting_notes/${tasting_id.data.id[0]}`,
+            data.tasting_ids
+          )
+          .then(results => {
+            console.log(results);
+          });
+      });
+  }
 };
 
 const mutations = {

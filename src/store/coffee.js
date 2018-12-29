@@ -25,8 +25,6 @@ const actions = {
       });
   },
   [GET_COFFEE]({ commit }, user_id) {
-    console.log("USER", user_id);
-
     axios
       .get(`/users/1/coffee`)
       .then(data => {
