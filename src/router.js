@@ -5,6 +5,7 @@ import Register from "./views/Register.vue";
 import Dashboard from "./views/Dashboard.vue";
 import AddCoffee from "./views/AddCoffee.vue";
 import AddTasting from "./views/AddTasting.vue";
+import Coffee from "./views/Coffee.vue";
 
 Vue.use(Router);
 
@@ -48,6 +49,14 @@ export default new Router({
       path: "/add_tasting",
       name: "add_tasting",
       component: AddTasting,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/coffee/:coffee_id",
+      name: "coffee",
+      component: Coffee,
       meta: {
         requiresAuth: true
       }

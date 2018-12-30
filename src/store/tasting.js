@@ -24,7 +24,6 @@ const actions = {
       });
   },
   [ADD_TASTING]({ commit }, data) {
-    console.log(data);
     axios
       .post(
         `/users/${data.users_id}/coffee/${data.coffee_id}/tastings`,
@@ -40,6 +39,9 @@ const actions = {
           .then(results => {
             console.log(results);
           });
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 };
