@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-toolbar app></v-toolbar>
+  <v-app class="grey lighten-3">
+    <Navbar></Navbar>
     <v-container grid-list-md>
       <v-content>
         <router-view></router-view>
@@ -11,9 +11,11 @@
 
 <script>
 import { CHECK_AUTH } from "@/store/actions.type";
+import Navbar from "@/components/Navbar";
+
 export default {
   name: "App",
-  components: {},
+  components: { Navbar },
   data() {
     return {
       //
