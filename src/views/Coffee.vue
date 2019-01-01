@@ -1,6 +1,28 @@
 <template>
   <div v-if="coffee">
-    <p>{{coffee.coffee_name}}</p>
+    <h1 class="subheading grey--text mb-5">Coffee</h1>
+
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card color class="grey--text">
+          <v-card-title primary-title>
+            <div>
+              <div class="headline">{{coffee.coffee_name}}</div>
+              <span>Listen to your favorite artists and albums whenever and wherever, online and offline.</span>
+            </div>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn flat dark>Listen now</v-btn>
+          </v-card-actions>
+        </v-card>
+        <v-divider></v-divider>
+        <div v-for="t in tastings" :key="t.id">
+          <ul>
+            <li>{{t.brew_method}}</li>
+          </ul>
+        </div>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
@@ -12,7 +34,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["coffee"])
+    ...mapGetters(["coffee", "tastings"])
   },
   methods: {},
   created() {

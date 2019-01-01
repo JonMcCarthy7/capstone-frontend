@@ -21,6 +21,9 @@ const getters = {
   coffee: state => {
     return state.coffee;
   },
+  tastings: state => {
+    return state.tastings;
+  },
   coffeeShow: state => id => state.coffee.find(el => el.id == id)
 };
 
