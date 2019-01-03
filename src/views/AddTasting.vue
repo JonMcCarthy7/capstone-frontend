@@ -18,28 +18,25 @@
             multiple
             required
           ></v-autocomplete>
-          <span>Overall Rating</span>
-          <v-rating hover large half-increments v-model="rating"></v-rating>
+          <v-card class="pa-3">
+            <span>Overall Rating</span>
+            <v-rating hover large half-increments v-model="rating"></v-rating>
+            <v-divider class="my-3"></v-divider>
+            <span class="mt-2">Body: {{this.body}}</span>
+            <v-slider :min="0" :max="5" :step="0.5" v-model="body"></v-slider>
+            <p class="mt-2">Acidity: {{this.acidity}}</p>
 
-          <v-slider :label="`Body: ${body}`" :min="0" :max="5" :step="0.5" v-model="body"></v-slider>
-          <v-slider :label="`Acidity: ${acidity}`" :min="0" :max="5" :step="0.5" v-model="acidity"></v-slider>
-          <v-slider
-            :label="`Smoothness: ${smoothness}`"
-            :min="0"
-            :max="5"
-            :step="0.5"
-            v-model="smoothness"
-          ></v-slider>
-          <v-slider
-            :label="`Sweetness: ${sweetness}`"
-            :min="0"
-            :max="5"
-            :step="0.5"
-            v-model="sweetness"
-          ></v-slider>
+            <v-slider :min="0" :max="5" :step="0.5" v-model="acidity"></v-slider>
+            <p class="mt-2">Smoothness: {{this.smoothness}}</p>
 
-          <v-switch v-model="favorite" :label="`Favorite: ${favorite ? 'Yes' : 'No'}`"></v-switch>
-          <!-- :label="`Favorite: ${favorite ? <v-icon small>check</v-icon> : <v-icon small>close</v-icon>}`" -->
+            <v-slider :min="0" :max="5" :step="0.5" v-model="smoothness"></v-slider>
+            <p class="mt-2">Sweetness: {{this.sweetness}}</p>
+
+            <v-slider :min="0" :max="5" :step="0.5" v-model="sweetness"></v-slider>
+
+            <v-switch v-model="favorite" :label="`Favorite: ${favorite ? 'Yes' : 'No'}`"></v-switch>
+            <!-- :label="`Favorite: ${favorite ? <v-icon small>check</v-icon> : <v-icon small>close</v-icon>}`" -->
+          </v-card>
           <v-date-picker v-model="tasting_date" landscape></v-date-picker>
         </v-flex>
         <v-flex xs12 md6>

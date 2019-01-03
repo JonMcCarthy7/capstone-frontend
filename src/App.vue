@@ -1,12 +1,15 @@
 <template>
-  <v-app class="grey lighten-3">
-    <Navbar></Navbar>
-    <v-container grid-list-md>
-      <v-content>
+  <div v-if="isLogged">
+    <v-app class="grey lighten-3">
+      <Navbar></Navbar>
+      <v-content class="mx-4 mb-4">
         <router-view></router-view>
       </v-content>
-    </v-container>
-  </v-app>
+    </v-app>
+  </div>
+  <div v-else class="text-xs-center">
+    <v-progress-circular :size="800" :width="15" color="blue" indeterminate></v-progress-circular>
+  </div>
 </template>
 
 <script>
@@ -20,6 +23,15 @@ export default {
     return {
       //
     };
+  },
+  computed: {
+    isLogged() {
+      let exposedRoutes = ["/log_in", "/register"];
+      let pathname = this.$router.history.current.path;
+      if (exposedRoutes.indexOf(pathname) < 0)
+        return !!this.$store.state.auth.user.id;
+      return true;
+    }
   },
   beforeCreate() {
     let exposedRoutes = ["/log_in", "/register"];

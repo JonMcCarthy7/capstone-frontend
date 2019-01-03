@@ -1,34 +1,35 @@
 <template>
-  <div v-if="coffee">
-    <h1 class="subheading grey--text mb-5">Dashboard</h1>
-
-    <v-card v-for="c in coffee" :key="c.id">
-      <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
-        <v-flex xs12 md6>
-          <div class="caption grey--text">Coffee Name</div>
-          <div class="headline">{{ c.coffee_name }}</div>
-        </v-flex>
-        <v-flex xs6 sm4 md2>
-          <div class="caption grey--text">Processing Method</div>
-          <div class="title">{{ c.processing_method }}</div>
-        </v-flex>
-        <v-flex xs6 sm4 md2>
-          <div class="caption grey--text">Origin</div>
-          <v-chip
-            small
-            :class="`title ${c.origin.replace(' ', '-').toLowerCase()} white--text my-2 `"
-          >{{ c.origin }}</v-chip>
-        </v-flex>
-        <v-flex xs12 sm4 md2>
-          <div class="right">
-            <v-btn color="accent" :to="{name: 'coffee', params:{coffee_id: c.id}}" fab>
-              <v-icon>forward</v-icon>
-            </v-btn>
-          </div>
-        </v-flex>
-      </v-layout>
-      <v-divider></v-divider>
-    </v-card>
+  <div v-if="coffee.length > 0">
+    <h1 class="subheading grey--text">Dashboard</h1>
+    <v-container class="my-5">
+      <v-card v-for="c in coffee" :key="c.id">
+        <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
+          <v-flex xs12 md6>
+            <div class="caption grey--text">Coffee Name</div>
+            <div class="headline my-1">{{ c.coffee_name }}</div>
+          </v-flex>
+          <v-flex xs6 sm4 md2>
+            <div class="caption grey--text">Processing Method</div>
+            <div class="title mb-1 mt-2">{{ c.processing_method }}</div>
+          </v-flex>
+          <v-flex xs6 sm4 md2>
+            <div class="caption grey--text">Origin</div>
+            <v-chip
+              small
+              :class="`title ${c.origin.replace(' ', '-').toLowerCase()} white--text my-2 `"
+            >{{ c.origin }}</v-chip>
+          </v-flex>
+          <v-flex xs12 sm4 md2>
+            <div class="right">
+              <v-btn color="accent" :to="{name: 'coffee', params:{coffee_id: c.id}}" fab>
+                <v-icon>forward</v-icon>
+              </v-btn>
+            </div>
+          </v-flex>
+        </v-layout>
+        <v-divider></v-divider>
+      </v-card>
+    </v-container>
   </div>
 </template>
 
@@ -115,7 +116,7 @@ export default {
 }
 
 .coffee.hawaii {
-  border-left: 4px solid #ffff00;
+  border-left: 4px solid #0091ff;
 }
 .coffee.honduras {
   border-left: 4px solid #00e676;
@@ -124,7 +125,7 @@ export default {
   border-left: 4px solid #00e676;
 }
 .coffee.jamaica {
-  border-left: 4px solid #1565c0;
+  border-left: 4px solid #1a7ff2;
 }
 .coffee.peru {
   border-left: 4px solid #fb8c00;
@@ -194,9 +195,8 @@ export default {
 .v-chip.guatemala {
   background: #aa00ff;
 }
-
 .v-chip.hawaii {
-  background: #ffff00;
+  background: #0091ff;
 }
 .v-chip.honduras {
   background: #00e676;

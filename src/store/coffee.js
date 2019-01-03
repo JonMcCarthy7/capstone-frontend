@@ -51,7 +51,7 @@ const actions = {
   },
   [GET_COFFEE]({ commit }, payload) {
     axios
-      .get(`/users/1/coffee/1`)
+      .get(`/users/${payload.users_id}/coffee/${payload.coffee_id}`)
       .then(data => {
         commit(COFFEE, data.data[0]);
       })
@@ -61,7 +61,7 @@ const actions = {
   },
   [GET_COFFEE_TASTINGS]({ commit }, payload) {
     axios
-      .get(`/users/1/coffee/1/tastings`)
+      .get(`/users/${payload.users_id}/coffee/${payload.coffee_id}/tastings`)
       .then(data => {
         commit(COFFEE_TASTINGS, data.data);
       })
