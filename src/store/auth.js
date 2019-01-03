@@ -4,7 +4,7 @@ import axios from "@/axios";
 
 const state = {
   user: {},
-  token: localStorage.getItem("token")
+  token: localStorage.getItem("token") || ""
 };
 
 // getters
@@ -20,45 +20,52 @@ const actions = {
     axios
       .post("/users", user)
       .then(data => {
-        // commit(SET_AUTH, user); SEND MESSAGE HERE
+        // commit(SET_AUTH, data);
       })
       .catch(err => {
         console.log(err.response.data.message);
       });
   },
-  [LOGIN]({ commit }, payload) {
-    axios
-      .post("/sessions", payload)
-      .then(data => {
-        // console.log(data.data.user);
-        commit(SET_AUTH, data.data);
-      })
-      .catch(err => {
-        console.log(err.response.data.message);
-      });
+  async [LOGIN]({ commit }, payload) {
+    let response = await axios.post("/sessions", payload);
+    commit(SET_AUTH, response.data);
+    return response;
+    // return new Promise((resolve, reject) => {
+    // axios
+    //   .post("/sessions", payload)
+    //   .then(data => {
+    //     console.log(axios.defaults);
+
+    //     console.log("DATA>DATA", data.data);
+    //     commit(SET_AUTH, data.data);
+    //     resolve();
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //     reject();
+    //   });
+    // });
   },
   [CHECK_AUTH]({ commit }) {
-    // if (state.token) {
     axios
       .get("/user")
       .then(data => {
+        console.log("CHECK AUTH", data.data);
+
         commit(VERIFY_USER, data.data);
       })
       .catch(err => {
-        console.log(err.response.data.message);
+        console.log(err);
       });
-    // } else {
-    //   console.log("ERROR, no token");
-    // }
   }
 };
-
 // mutations
 const mutations = {
   [SET_AUTH](state, payload) {
+    axios.defaults.headers.token = payload.token;
     localStorage.setItem("token", payload.token);
-    state.user = payload.user;
     state.token = payload.token;
+    state.user = payload.user;
   },
   [VERIFY_USER](state, payload) {
     state.user = payload;
