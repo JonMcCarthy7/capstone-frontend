@@ -1,30 +1,64 @@
 <template>
   <div v-if="coffee">
     <h1 class="subheading grey--text mb-5">Coffee</h1>
-    <v-container class="my-5">
+    <v-container class="my-5" grid-list-md>
       <v-layout row wrap>
-        <v-flex xs12>
+        <v-flex xs12 sm12 md12>
           <v-card color class="grey--text">
-            <v-card-title primary-title>
-              <div>
-                <div class="headline">{{coffee.coffee_name}}</div>
-                <p>{{coffee.origin}}</p>
-                <p>{{coffee.shop}}</p>
-                <p>{{coffee.region}}</p>
-                <p>{{coffee.altitude}}</p>
-                <p>{{coffee.processing_method}}</p>
-                <p>{{coffee.varietal}}</p>
-                <p>{{coffee.favorite ? "Favorite: Yes" : "Favorite: No"}}</p>
-                <p>{{coffee.notes}}</p>
-              </div>
-            </v-card-title>
-            <v-card-actions>
-              <v-btn flat dark>Listen now</v-btn>
-            </v-card-actions>
+            <v-layout row wrap>
+              <v-flex xs12 sm12 md12>
+                <div class="right">
+                  <v-speed-dial v-model="fab" dark bottom right medium direction="left">
+                    <v-btn v-model="fab" slot="activator" color="blue darken-2" dark fab>
+                      <v-icon>account_circle</v-icon>
+                      <v-icon>close</v-icon>
+                    </v-btn>
+                    <v-btn
+                      :to="{name: 'edit_coffee', params:{coffee_id: coffee.id}}"
+                      fab
+                      dark
+                      small
+                      color="green"
+                    >
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                    <v-btn
+                      :to="{name: 'add_tasting', params:{coffee_id: coffee.id}}"
+                      fab
+                      dark
+                      small
+                      color="indigo"
+                    >
+                      <v-icon>add</v-icon>
+                    </v-btn>
+                    <v-btn fab dark small color="red">
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+                  </v-speed-dial>
+                </div>
+              </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+              <v-flex xs12 sm12 md12>
+                <v-card-title primary-title>
+                  <div>
+                    <div class="headline">{{coffee.coffee_name}}</div>
+                    <p>{{coffee.origin}}</p>
+                    <p>{{coffee.shop}}</p>
+                    <p>{{coffee.region}}</p>
+                    <p>{{coffee.altitude}}</p>
+                    <p>{{coffee.processing_method}}</p>
+                    <p>{{coffee.varietal}}</p>
+                    <p>{{coffee.favorite ? "Favorite: Yes" : "Favorite: No"}}</p>
+                    <p>{{coffee.notes}}</p>
+                  </div>
+                </v-card-title>
+              </v-flex>
+            </v-layout>
           </v-card>
-          <v-divider></v-divider>
         </v-flex>
       </v-layout>
+      <v-divider></v-divider>
     </v-container>
 
     <v-container v-if="tastings.length > 0">
@@ -55,7 +89,6 @@
                         <v-card-title primary-title class="grey lighten-2">
                           <v-layout align-start justify-space-around row wrap>
                             <div class="display-2">{{t.brew_method}}</div>
-
                             <v-rating :value="Number(t.rating)" large readonly></v-rating>
                           </v-layout>
                         </v-card-title>
@@ -66,7 +99,6 @@
                     </v-dialog>
                   </v-flex>
                 </v-layout>
-                <v-divider></v-divider>
               </v-timeline-item>
             </v-flex>
           </v-layout>
@@ -82,7 +114,7 @@ import { GET_COFFEE, GET_COFFEE_TASTINGS } from "@/store/actions.type";
 import moment from "moment";
 export default {
   data() {
-    return {};
+    return { fab: false };
   },
   computed: {
     ...mapGetters(["coffee", "tastings"])

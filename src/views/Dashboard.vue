@@ -47,7 +47,7 @@ export default {
   },
   methods: {},
   created() {
-    this.$store.dispatch(GET_ALL_COFFEE, 1); // TODO: id is hard coded
+    this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id); // TODO: id is hard coded
     // this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id);
   }
 };

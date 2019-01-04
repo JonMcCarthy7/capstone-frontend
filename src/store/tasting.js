@@ -23,26 +23,30 @@ const actions = {
         console.log(err);
       });
   },
-  [ADD_TASTING]({ commit }, data) {
-    axios
-      .post(
-        `/users/${data.users_id}/coffee/${data.coffee_id}/tastings`,
-        data.tasting
-      )
-      .then(tasting_id => {
-        console.log("TASTING ID", tasting_id.data.id[0]);
-        axios
-          .post(
-            `/tastings_tasting_notes/${tasting_id.data.id[0]}`,
-            data.tasting_ids
-          )
-          .then(results => {
-            console.log(results);
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  async [ADD_TASTING]({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(
+          `/users/${data.users_id}/coffee/${data.coffee_id}/tastings`,
+          data.tasting
+        )
+        .then(tasting_id => {
+          console.log("TASTING ID", tasting_id.data.id[0]);
+          axios
+            .post(
+              `/tastings_tasting_notes/${tasting_id.data.id[0]}`,
+              data.tasting_ids
+            )
+            .then(results => {
+              console.log(results);
+              resolve();
+            });
+        })
+        .catch(err => {
+          console.log(err);
+          reject();
+        });
+    });
   }
 };
 

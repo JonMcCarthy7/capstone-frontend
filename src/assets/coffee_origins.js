@@ -51,4 +51,4 @@ export default [
   "Jamaica",
   "Philippines",
   "Zimbabwe"
-];
+].sort();

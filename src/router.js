@@ -6,6 +6,8 @@ import Dashboard from "./views/Dashboard.vue";
 import AddCoffee from "./views/AddCoffee.vue";
 import AddTasting from "./views/AddTasting.vue";
 import Coffee from "./views/Coffee.vue";
+import EditCoffee from "./views/EditCoffee.vue";
+import EditTasting from "./views/EditTasting.vue";
 
 Vue.use(Router);
 
@@ -46,7 +48,7 @@ export default new Router({
       }
     },
     {
-      path: "/add_tasting",
+      path: "/add_tasting/:coffee_id",
       name: "add_tasting",
       component: AddTasting,
       meta: {
@@ -57,6 +59,22 @@ export default new Router({
       path: "/coffee/:coffee_id",
       name: "coffee",
       component: Coffee,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/edit_coffee/:coffee_id",
+      name: "edit_coffee",
+      component: EditCoffee,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/edit_tasting/tasting_id",
+      name: "edit_tasting",
+      component: EditTasting,
       meta: {
         requiresAuth: true
       }
