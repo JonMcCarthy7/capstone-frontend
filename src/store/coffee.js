@@ -3,29 +3,29 @@ import {
   GET_ALL_COFFEE,
   GET_COFFEE,
   GET_COFFEE_TASTINGS,
+  GET_COFFEE_TASTING,
   EDIT_COFFEE_SUCCESS
 } from "./actions.type";
 import {
   ADD_COFFEE,
   SET_COFFEE,
   COFFEE,
-  COFFEE_TASTINGS
+  COFFEE_TASTINGS,
+  COFFEE_TASTING
 } from "./mutations.type";
 import axios from "@/axios";
 
 const state = {
   coffee: [],
-  tastings: []
+  tastings: [],
+  tasting: {}
 };
 
 const getters = {
-  coffee: state => {
-    return state.coffee;
-  },
-  tastings: state => {
-    return state.tastings;
-  },
-  coffeeShow: state => id => state.coffee.find(el => el.id == id)
+  coffee: state => state.coffee,
+  tastings: state => state.tastings,
+  coffeeShow: state => id => state.coffee.find(el => el.id == id),
+  tasting: state => state.tasting
 };
 
 const actions = {
@@ -83,7 +83,27 @@ const actions = {
     axios
       .get(`/users/${payload.users_id}/coffee/${payload.coffee_id}/tastings`)
       .then(data => {
-        commit(COFFEE_TASTINGS, data.data);
+        console.log(data.data.rows);
+
+        commit(COFFEE_TASTINGS, data.data.rows);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  [GET_COFFEE_TASTING]({ commit }, payload) {
+    console.log(payload);
+
+    axios
+      .get(
+        `/users/${payload.users_id}/coffee/${payload.coffee_id}/tastings/${
+          payload.tastings_id
+        }`
+      )
+      .then(data => {
+        console.log(data.data);
+
+        commit(COFFEE_TASTING, data.data);
       })
       .catch(err => {
         console.log(err);
@@ -103,6 +123,9 @@ const mutations = {
   },
   [COFFEE_TASTINGS](state, payload) {
     state.tastings = payload;
+  },
+  [COFFEE_TASTING](state, payload) {
+    state.tasting = payload;
   }
 };
 

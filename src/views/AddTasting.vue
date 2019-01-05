@@ -22,7 +22,7 @@
             <span>Overall Rating</span>
             <v-rating hover large half-increments v-model="rating"></v-rating>
             <v-divider class="my-3"></v-divider>
-            <span class="mt-2">Body: {{this.body}}</span>
+            <p class="mt-2">Body: {{this.body}}</p>
             <v-slider :min="0" :max="5" :step="0.5" v-model="body"></v-slider>
             <p class="mt-2">Acidity: {{this.acidity}}</p>
 
@@ -66,7 +66,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { GET_TASTING_NOTES_SUCCESS, ADD_TASTING } from "@/store/actions.type";
+import { GET_TASTING_NOTES_SUCCESS, GET_TASTING } from "@/store/actions.type";
 
 export default {
   data: () => ({

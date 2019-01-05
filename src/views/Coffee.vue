@@ -5,39 +5,33 @@
       <v-layout row wrap>
         <v-flex xs12 sm12 md12>
           <v-card color class="grey--text">
-            <v-layout row wrap>
-              <v-flex xs12 sm12 md12>
-                <div class="right">
-                  <v-speed-dial v-model="fab" dark bottom right medium direction="left">
-                    <v-btn v-model="fab" slot="activator" color="blue darken-2" dark fab>
-                      <v-icon>account_circle</v-icon>
-                      <v-icon>close</v-icon>
-                    </v-btn>
-                    <v-btn
-                      :to="{name: 'edit_coffee', params:{coffee_id: coffee.id}}"
-                      fab
-                      dark
-                      small
-                      color="green"
-                    >
-                      <v-icon>edit</v-icon>
-                    </v-btn>
-                    <v-btn
-                      :to="{name: 'add_tasting', params:{coffee_id: coffee.id}}"
-                      fab
-                      dark
-                      small
-                      color="indigo"
-                    >
-                      <v-icon>add</v-icon>
-                    </v-btn>
-                    <v-btn fab dark small color="red">
-                      <v-icon>delete</v-icon>
-                    </v-btn>
-                  </v-speed-dial>
-                </div>
-              </v-flex>
-            </v-layout>
+            <v-speed-dial absolute right dark medium direction="left" mt-2 style="z-index: 0;">
+              <v-btn slot="activator" color="blue darken-2" dark fab>
+                <v-icon>account_circle</v-icon>
+                <v-icon>close</v-icon>
+              </v-btn>
+              <v-btn
+                :to="{name: 'edit_coffee', params:{coffee_id: coffee.id}}"
+                fab
+                dark
+                small
+                color="green"
+              >
+                <v-icon>edit</v-icon>
+              </v-btn>
+              <v-btn
+                :to="{name: 'add_tasting', params:{coffee_id: coffee.id}}"
+                fab
+                dark
+                small
+                color="indigo"
+              >
+                <v-icon>add</v-icon>
+              </v-btn>
+              <v-btn fab dark small color="red">
+                <v-icon>delete</v-icon>
+              </v-btn>
+            </v-speed-dial>
             <v-layout row wrap>
               <v-flex xs12 sm12 md12>
                 <v-card-title primary-title>
@@ -80,21 +74,82 @@
                   <v-flex xs12 sm6 md3>
                     <v-rating :value="Number(t.rating)" medium readonly></v-rating>
                   </v-flex>
-                  <v-flex xs12 sm6 md3 class="text-xs-right">
-                    <v-dialog full-width>
+                  <v-flex xs12 sm6 md3 class="text-xs-center">
+                    <v-dialog width="80em">
                       <v-btn slot="activator" color="accent" fab>
                         <v-icon>speaker_notes</v-icon>
                       </v-btn>
                       <v-card>
                         <v-card-title primary-title class="grey lighten-2">
-                          <v-layout align-start justify-space-around row wrap>
+                          <v-layout align-start row wrap>
+                            <v-speed-dial ml-3 absolute dark right small direction="left">
+                              <v-btn slot="activator" color="blue darken-2" dark fab>
+                                <v-icon>account_circle</v-icon>
+                                <v-icon>close</v-icon>
+                              </v-btn>
+                              <v-btn
+                                :to="{name: 'edit_tasting', params:{coffee_id: t.coffee_id, tastings_id: t.id}}"
+                                fab
+                                dark
+                                small
+                                color="green"
+                              >
+                                <v-icon>edit</v-icon>
+                              </v-btn>
+                            </v-speed-dial>
                             <div class="display-2">{{t.brew_method}}</div>
                             <v-rating :value="Number(t.rating)" large readonly></v-rating>
                           </v-layout>
                         </v-card-title>
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                        </v-card-actions>
+                        <v-container grid-list-xs>
+                          <v-layout row wrap>
+                            <v-flex xs12 sm12 md6 class="px-3">
+                              <p class="mt-2">Body: {{t.body}}</p>
+                              <v-slider readonly :min="0" :max="5" :step="0.5" :value="t.body"></v-slider>
+                              <p class="mt-2">Acidity: {{t.acidity}}</p>
+                              <v-slider readonly :min="0" :max="5" :step="0.5" :value="t.acidity"></v-slider>
+                              <p class="mt-2">Smoothness: {{t.smoothness}}</p>
+                              <v-slider
+                                readonly
+                                :min="0"
+                                :max="5"
+                                :step="0.5"
+                                :value="t.smoothness"
+                              ></v-slider>
+                              <p class="mt-2">Sweetness: {{t.sweetness}}</p>
+                              <v-slider readonly :min="0" :max="5" :step="0.5" :value="t.sweetness"></v-slider>
+
+                              <p>
+                                Favorite
+                                <span v-if="t.favorite">
+                                  <v-icon>check</v-icon>
+                                </span>
+                                <span v-else>
+                                  <v-icon>close</v-icon>
+                                </span>
+                              </p>
+                              <p>Tasting Date: {{formattedDate(t.created_at)}}</p>
+                            </v-flex>
+                            <v-flex xs12 sm12 md6 class="px-3">
+                              <p>{{t.roasting_profile}}</p>
+                              <p>{{t.description}}</p>
+                            </v-flex>
+                            <v-divider></v-divider>
+                            <v-layout row wrap>
+                              <v-flex xs12 sm12 md12 class="px-3">
+                                <p>
+                                  Tasting Notes:
+                                  <span
+                                    v-for="(tn, index) in t.array_agg"
+                                    :key="index"
+                                  >
+                                    <v-chip>{{tn}}</v-chip>
+                                  </span>
+                                </p>
+                              </v-flex>
+                            </v-layout>
+                          </v-layout>
+                        </v-container>
                       </v-card>
                     </v-dialog>
                   </v-flex>

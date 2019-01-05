@@ -72,7 +72,7 @@ export default new Router({
       }
     },
     {
-      path: "/edit_tasting/tasting_id",
+      path: "/edit_tasting/:coffee_id/:tastings_id",
       name: "edit_tasting",
       component: EditTasting,
       meta: {
