@@ -66,7 +66,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { GET_TASTING_NOTES_SUCCESS, GET_TASTING } from "@/store/actions.type";
+import { GET_TASTING_NOTES_SUCCESS, ADD_TASTING } from "@/store/actions.type";
 
 export default {
   data: () => ({

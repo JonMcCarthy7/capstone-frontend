@@ -23,7 +23,7 @@ const actions = {
         console.log(err);
       });
   },
-  async [ADD_TASTING]({ commit }, data) {
+  [ADD_TASTING]({ commit }, data) {
     return new Promise((resolve, reject) => {
       axios
         .post(

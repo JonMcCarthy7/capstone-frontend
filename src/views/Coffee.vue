@@ -5,38 +5,43 @@
       <v-layout row wrap>
         <v-flex xs12 sm12 md12>
           <v-card color class="grey--text">
-            <v-speed-dial absolute right dark medium direction="left" mt-2 style="z-index: 0;">
-              <v-btn slot="activator" color="blue darken-2" dark fab>
-                <v-icon>account_circle</v-icon>
-                <v-icon>close</v-icon>
-              </v-btn>
-              <v-btn
-                :to="{name: 'edit_coffee', params:{coffee_id: coffee.id}}"
-                fab
-                dark
-                small
-                color="green"
-              >
-                <v-icon>edit</v-icon>
-              </v-btn>
-              <v-btn
-                :to="{name: 'add_tasting', params:{coffee_id: coffee.id}}"
-                fab
-                dark
-                small
-                color="indigo"
-              >
-                <v-icon>add</v-icon>
-              </v-btn>
-              <v-btn fab dark small color="red">
-                <v-icon>delete</v-icon>
-              </v-btn>
-            </v-speed-dial>
+            <v-card-title primary-title class="grey lighten-2">
+              <v-layout align-center justify-space-between row wrap fill-height>
+                <div class="display-2">{{coffee.coffee_name}}</div>
+                <v-speed-dial ml-3 absolute dark right small direction="bottom">
+                  <v-btn slot="activator" color="blue darken-2" dark fab>
+                    <v-icon>account_circle</v-icon>
+                    <v-icon>close</v-icon>
+                  </v-btn>
+                  <v-btn
+                    :to="{name: 'edit_coffee', params:{coffee_id: coffee.id}}"
+                    fab
+                    dark
+                    small
+                    color="green"
+                  >
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <v-btn
+                    :to="{name: 'add_tasting', params:{coffee_id: coffee.id}}"
+                    fab
+                    dark
+                    small
+                    color="indigo"
+                  >
+                    <v-icon>add</v-icon>
+                  </v-btn>
+                  <v-btn fab dark small color="red">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </v-speed-dial>
+              </v-layout>
+            </v-card-title>
+
             <v-layout row wrap>
               <v-flex xs12 sm12 md12>
                 <v-card-title primary-title>
                   <div>
-                    <div class="headline">{{coffee.coffee_name}}</div>
                     <p>{{coffee.origin}}</p>
                     <p>{{coffee.shop}}</p>
                     <p>{{coffee.region}}</p>
@@ -55,14 +60,14 @@
       <v-divider></v-divider>
     </v-container>
 
-    <v-container v-if="tastings.length > 0">
+    <v-container grid-list-md v-if="tastings.length > 0">
       <v-timeline dense clipped>
         <div v-for="t in tastings" :key="t.id">
           <v-layout row wrap>
             <v-flex xs12>
               <v-timeline-item class="mb-3" medium>
                 <v-layout align-center row wrap>
-                  <v-flex xs12 sm6 md3>
+                  <v-flex xs12 sm3 md3>
                     <v-chip
                       class="white--text ml-0"
                       color="primary"
@@ -70,11 +75,11 @@
                       small
                     >{{formattedDate(t.created_at)}}</v-chip>
                   </v-flex>
-                  <v-flex xs12 sm6 md3 class>Brew Method: {{t.brew_method}}</v-flex>
-                  <v-flex xs12 sm6 md3>
+                  <v-flex xs12 sm3 md3 class>Brew Method: {{t.brew_method}}</v-flex>
+                  <v-flex xs12 sm3 md3>
                     <v-rating :value="Number(t.rating)" medium readonly></v-rating>
                   </v-flex>
-                  <v-flex xs12 sm6 md3 class="text-xs-center">
+                  <v-flex xs12 sm3 md3 class="text-xs-center">
                     <v-dialog width="80em">
                       <v-btn slot="activator" color="accent" fab>
                         <v-icon>speaker_notes</v-icon>
@@ -82,7 +87,7 @@
                       <v-card>
                         <v-card-title primary-title class="grey lighten-2">
                           <v-layout align-start row wrap>
-                            <v-speed-dial ml-3 absolute dark right small direction="left">
+                            <v-speed-dial ml-3 absolute dark right small direction="bottom">
                               <v-btn slot="activator" color="blue darken-2" dark fab>
                                 <v-icon>account_circle</v-icon>
                                 <v-icon>close</v-icon>
@@ -101,8 +106,8 @@
                             <v-rating :value="Number(t.rating)" large readonly></v-rating>
                           </v-layout>
                         </v-card-title>
-                        <v-container grid-list-xs>
-                          <v-layout row wrap>
+                        <v-container grid-list-md>
+                          <v-layout row wrap mt-3>
                             <v-flex xs12 sm12 md6 class="px-3">
                               <p class="mt-2">Body: {{t.body}}</p>
                               <v-slider readonly :min="0" :max="5" :step="0.5" :value="t.body"></v-slider>
@@ -161,6 +166,9 @@
       </v-timeline>
     </v-container>
   </div>
+  <div v-else class="text-xs-center">
+    <v-progress-circular :size="800" :width="15" color="blue" indeterminate></v-progress-circular>
+  </div>
 </template>
 
 <script>
@@ -191,4 +199,13 @@ export default {
   }
 };
 </script>
+<style>
+.v-speed-dial {
+  z-index: 0;
+}
+.v-dialog .v-rating {
+  margin-right: 7em;
+}
+</style>
+
 

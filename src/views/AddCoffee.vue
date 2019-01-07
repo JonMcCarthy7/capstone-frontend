@@ -22,7 +22,7 @@
           <v-text-field v-model="region" :rules="textRules" label="Region / Farm"></v-text-field>
           <v-text-field v-model="varietal" :rules="textRules" label="Varietal"></v-text-field>
           <v-text-field v-model="shop" :rules="textRules" label="Coffee Shop"></v-text-field>
-          <v-text-field v-model="altitude" :rules="textRules" label="Altitude"></v-text-field>
+          <v-text-field type="number" v-model="altitude" :rules="textRules" label="Altitude"></v-text-field>
         </v-flex>
         <v-flex xs12 md6>
           <v-textarea box rows="15" prepend-icon="notes" v-model="notes" name="notes" label="Notes"></v-textarea>

@@ -51,7 +51,6 @@ const actions = {
       .get("/user")
       .then(data => {
         console.log("CHECK AUTH", data.data);
-
         commit(VERIFY_USER, data.data);
       })
       .catch(err => {

@@ -2,17 +2,34 @@
   <div v-if="coffee.length > 0">
     <h1 class="subheading grey--text">Dashboard</h1>
     <v-container class="my-5">
+      <v-layout row justify-start class="mb-3">
+        <v-tooltip top>
+          <v-btn small flat color="grey" @click="sortBy('title')" slot="activator">
+            <v-icon small left>folder</v-icon>
+            <span class="caption text-lowercase">By project name</span>
+          </v-btn>
+          <span>Sort by project name</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <v-btn small flat color="grey" @click="sortBy('person')" slot="activator">
+            <v-icon small left>person</v-icon>
+            <span class="caption text-lowercase">By Person</span>
+          </v-btn>
+          <span>Sort by project author</span>
+        </v-tooltip>
+      </v-layout>
+
       <v-card v-for="c in coffee" :key="c.id">
         <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
-          <v-flex xs12 md6>
+          <v-flex xs12 md4>
             <div class="caption grey--text">Coffee Name</div>
             <div class="headline my-1">{{ c.coffee_name }}</div>
           </v-flex>
-          <v-flex xs6 sm4 md2>
+          <v-flex xs12 sm4 md3>
             <div class="caption grey--text">Processing Method</div>
             <div class="title mb-1 mt-2">{{ c.processing_method }}</div>
           </v-flex>
-          <v-flex xs6 sm4 md2>
+          <v-flex xs12 sm4 md3>
             <div class="caption grey--text">Origin</div>
             <v-chip
               small
@@ -51,6 +68,7 @@ export default {
     // this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id);
   }
 };
+// window.scrollTo(x-coord, y-coord);
 </script>
 
 <style>

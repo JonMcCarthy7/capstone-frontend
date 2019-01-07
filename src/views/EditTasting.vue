@@ -15,7 +15,7 @@
               v-model="tasting.notes"
               :items="tastingNotes"
               item-text="tasting_note"
-              item-value="id"
+              return-object
               chips
               deletable-chips
               :rules="[v => !!v || 'Item is required']"
@@ -46,7 +46,8 @@
               ></v-switch>
               <!-- :label="`Favorite: ${favorite ? <v-icon small>check</v-icon> : <v-icon small>close</v-icon>}`" -->
             </v-card>
-            <v-date-picker v-model="tasting.tasting[0].tasting_date" landscape></v-date-picker>
+            <p>Tasting Date: {{formattedDate(tasting.tasting[0].tasting_date)}}</p>
+            <v-date-picker v-model="tasting_date" landscape></v-date-picker>
           </v-flex>
           <v-flex xs12 md6>
             <v-textarea
@@ -78,8 +79,10 @@
 import { mapGetters } from "vuex";
 import {
   GET_TASTING_NOTES_SUCCESS,
-  GET_COFFEE_TASTING
+  GET_COFFEE_TASTING,
+  EDIT_TASTING_SUCCESS
 } from "@/store/actions.type";
+import moment from "moment";
 
 export default {
   data: () => ({
@@ -104,12 +107,16 @@ export default {
     ...mapGetters(["tastingNotes", "tasting"])
   },
   methods: {
+    formattedDate(date) {
+      return date ? moment(date).format("MM/DD/YYYY") : ""; // Date picker objects needs date in this particular format
+    },
     submit() {
-      console.log(this.tasting);
+      // console.log(this.tasting.tasting[0].brew_method);
+      console.log(this.tasting.notes);
 
       // if (this.$refs.form.validate()) {
       //   this.$store
-      //     .dispatch(ADD_TASTING, {
+      //     .dispatch(EDIT_TASTING_SUCCESS, {
       //       users_id: this.$store.state.auth.user.id,
       //       coffee_id: this.$router.history.current.params.coffee_id,
       //       tasting: {
