@@ -1,4 +1,8 @@
-import { GET_TASTING_NOTES_SUCCESS, ADD_TASTING } from "./actions.type";
+import {
+  GET_TASTING_NOTES_SUCCESS,
+  ADD_TASTING,
+  EDIT_TASTING_SUCCESS
+} from "./actions.type";
 import { SET_TASTING_NOTES } from "./mutations.type";
 import axios from "@/axios";
 
@@ -16,26 +20,26 @@ const actions = {
   [GET_TASTING_NOTES_SUCCESS]({ commit }) {
     axios
       .get("/tasting_notes")
-      .then(data => {
-        commit(SET_TASTING_NOTES, data.data);
+      .then(results => {
+        commit(SET_TASTING_NOTES, results.data);
       })
       .catch(err => {
         console.log(err);
       });
   },
-  [ADD_TASTING]({ commit }, data) {
+  [ADD_TASTING]({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios
         .post(
-          `/users/${data.users_id}/coffee/${data.coffee_id}/tastings`,
-          data.tasting
+          `/users/${payload.users_id}/coffee/${payload.coffee_id}/tastings`,
+          payload.tasting
         )
         .then(tasting_id => {
-          console.log("TASTING ID", tasting_id.data.id[0]);
+          console.log("TASTING ID", tasting_id.payload.id[0]);
           axios
             .post(
-              `/tastings_tasting_notes/${tasting_id.data.id[0]}`,
-              data.tasting_ids
+              `/tastings_tasting_notes/${tasting_id.payload.id[0]}`,
+              payload.tasting_ids
             )
             .then(results => {
               console.log(results);
@@ -47,6 +51,49 @@ const actions = {
           reject();
         });
     });
+  },
+  async [EDIT_TASTING_SUCCESS]({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(
+          `/users/${payload.users_id}/coffee/${payload.coffee_id}/tastings/${
+            payload.tastings_id
+          }`,
+          payload.tasting
+        )
+        .then(() => {
+          axios
+            .put(
+              `/tastings_tasting_notes/${payload.tastings_id}`,
+              payload.tasting_ids
+            )
+            .then(results => {
+              console.log(results);
+              resolve();
+            });
+        })
+        .catch(err => {
+          console.log(err);
+          reject();
+        });
+    });
+    // let response = await axios.put(
+    //   `/users/${payload.coffee.users_id}/coffee/${payload.coffee_id}`,
+    //   payload.coffee
+    // );
+    // return response;
+    // axios
+    //   .post(
+    //     `/users/${payload.coffee.users_id}/coffee/${payload.coffee_id}`,
+    //     payload.coffee
+    //   )
+    //   .then(data => {
+    //     console.log("Updated Coffee", data.data);
+    //     // commit(ADD_COFFEE, data.data.coffee[0]);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
 };
 

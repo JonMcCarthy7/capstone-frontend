@@ -100,11 +100,11 @@ export default {
             tasting: {
               brew_method: this.brew_method,
               favorite: this.favorite,
-              rating: this.rating,
-              body: this.body,
-              acidity: this.acidity,
-              sweetness: this.sweetness,
-              smoothness: this.smoothness,
+              rating: +this.rating,
+              body: +this.body,
+              acidity: +this.acidity,
+              sweetness: +this.sweetness,
+              smoothness: +this.smoothness,
               tasting_date: this.tasting_date,
               roasting_profile: this.roasting_profile,
               description: this.description

@@ -111,36 +111,34 @@ export default {
       return date ? moment(date).format("MM/DD/YYYY") : ""; // Date picker objects needs date in this particular format
     },
     submit() {
-      // console.log(this.tasting.tasting[0].brew_method);
-      console.log(this.tasting.notes);
-
-      // if (this.$refs.form.validate()) {
-      //   this.$store
-      //     .dispatch(EDIT_TASTING_SUCCESS, {
-      //       users_id: this.$store.state.auth.user.id,
-      //       coffee_id: this.$router.history.current.params.coffee_id,
-      //       tasting: {
-      //         brew_method: this.brew_method,
-      //         favorite: this.favorite,
-      //         rating: this.rating,
-      //         body: this.body,
-      //         acidity: this.acidity,
-      //         sweetness: this.sweetness,
-      //         smoothness: this.smoothness,
-      //         tasting_date: this.tasting_date,
-      //         roasting_profile: this.roasting_profile,
-      //         description: this.description
-      //       },
-      //       tasting_ids: this.tastings
-      //     })
-      //     .then(() =>
-      //       this.$router.push({
-      //         name: "coffee",
-      //         params: this.$router.history.current.params.coffee_id
-      //       })
-      //     )
-      //     .catch(err => console.log(err));
-      // }
+      if (this.$refs.form.validate()) {
+        this.$store
+          .dispatch(EDIT_TASTING_SUCCESS, {
+            users_id: this.$store.state.auth.user.id,
+            coffee_id: this.$router.history.current.params.coffee_id,
+            tastings_id: this.$router.history.current.params.tastings_id,
+            tasting: {
+              brew_method: this.tasting.tasting[0].brew_method,
+              favorite: this.tasting.tasting[0].favorite,
+              rating: this.tasting.tasting[0].rating,
+              body: this.tasting.tasting[0].body,
+              acidity: this.tasting.tasting[0].acidity,
+              sweetness: this.tasting.tasting[0].sweetness,
+              smoothness: this.tasting.tasting[0].smoothness,
+              tasting_date: this.tasting.tasting[0].tasting_date,
+              roasting_profile: this.tasting.tasting[0].roasting_profile,
+              description: this.tasting.tasting[0].description
+            },
+            tasting_ids: this.tasting.notes
+          })
+          .then(() =>
+            this.$router.push({
+              name: "coffee",
+              params: this.$router.history.current.params.coffee_id
+            })
+          )
+          .catch(err => console.log(err));
+      }
     },
     clear() {
       this.$refs.form.reset();

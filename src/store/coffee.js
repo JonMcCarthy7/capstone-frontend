@@ -4,8 +4,7 @@ import {
   GET_COFFEE,
   GET_COFFEE_TASTINGS,
   GET_COFFEE_TASTING,
-  EDIT_COFFEE_SUCCESS,
-  EDIT_TASTING_SUCCESS
+  EDIT_COFFEE_SUCCESS
 } from "./actions.type";
 import {
   ADD_COFFEE,
@@ -42,25 +41,6 @@ const actions = {
       });
   },
   async [EDIT_COFFEE_SUCCESS]({ commit }, payload) {
-    let response = await axios.put(
-      `/users/${payload.coffee.users_id}/coffee/${payload.coffee_id}`,
-      payload.coffee
-    );
-    return response;
-    // axios
-    //   .post(
-    //     `/users/${payload.coffee.users_id}/coffee/${payload.coffee_id}`,
-    //     payload.coffee
-    //   )
-    //   .then(data => {
-    //     console.log("Updated Coffee", data.data);
-    //     // commit(ADD_COFFEE, data.data.coffee[0]);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-  },
-  async [EDIT_TASTING_SUCCESS]({ commit }, payload) {
     let response = await axios.put(
       `/users/${payload.coffee.users_id}/coffee/${payload.coffee_id}`,
       payload.coffee
