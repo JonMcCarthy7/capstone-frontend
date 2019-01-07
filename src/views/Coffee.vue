@@ -73,7 +73,7 @@
                       color="primary"
                       label
                       small
-                    >{{formattedDate(t.created_at)}}</v-chip>
+                    >{{formattedDate(t.tasting_date)}}</v-chip>
                   </v-flex>
                   <v-flex xs12 sm3 md3 class>Brew Method: {{t.brew_method}}</v-flex>
                   <v-flex xs12 sm3 md3>
@@ -133,7 +133,7 @@
                                   <v-icon>close</v-icon>
                                 </span>
                               </p>
-                              <p>Tasting Date: {{formattedDate(t.created_at)}}</p>
+                              <p>Tasting Date: {{formattedDate(t.tasting_date)}}</p>
                             </v-flex>
                             <v-flex xs12 sm12 md6 class="px-3">
                               <p>{{t.roasting_profile}}</p>

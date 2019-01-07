@@ -63,13 +63,17 @@ const actions = {
         )
         .then(() => {
           axios
-            .put(
-              `/tastings_tasting_notes/${payload.tastings_id}`,
-              payload.tasting_ids
-            )
-            .then(results => {
-              console.log(results);
-              resolve();
+            .delete(`/tastings_tasting_notes/${payload.tastings_id}`)
+            .then(() => {
+              axios
+                .post(
+                  `/tastings_tasting_notes/${payload.tastings_id}`,
+                  payload.tasting_ids
+                )
+                .then(results => {
+                  console.log(results);
+                  resolve();
+                });
             });
         })
         .catch(err => {

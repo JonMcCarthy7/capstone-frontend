@@ -111,6 +111,9 @@ export default {
       return date ? moment(date).format("MM/DD/YYYY") : ""; // Date picker objects needs date in this particular format
     },
     submit() {
+      console.log(this.tasting_date);
+
+      this.tasting.notes = this.tasting.notes.map(el => el.id);
       if (this.$refs.form.validate()) {
         this.$store
           .dispatch(EDIT_TASTING_SUCCESS, {
@@ -125,7 +128,8 @@ export default {
               acidity: this.tasting.tasting[0].acidity,
               sweetness: this.tasting.tasting[0].sweetness,
               smoothness: this.tasting.tasting[0].smoothness,
-              tasting_date: this.tasting.tasting[0].tasting_date,
+              tasting_date:
+                this.tasting_date || this.tasting.tasting[0].tasting_date,
               roasting_profile: this.tasting.tasting[0].roasting_profile,
               description: this.tasting.tasting[0].description
             },
