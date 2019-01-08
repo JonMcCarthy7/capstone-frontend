@@ -1,5 +1,5 @@
-import { REGISTER, LOGIN, CHECK_AUTH } from "./actions.type";
-import { SET_AUTH, VERIFY_USER } from "./mutations.type";
+import { REGISTER, LOGIN, CHECK_AUTH, LOGOUT } from "./actions.type";
+import { SET_AUTH, VERIFY_USER, DESTROY_AUTH } from "./mutations.type";
 import axios from "@/axios";
 
 const state = {
@@ -30,21 +30,9 @@ const actions = {
     let response = await axios.post("/sessions", payload);
     commit(SET_AUTH, response.data);
     return response;
-    // return new Promise((resolve, reject) => {
-    // axios
-    //   .post("/sessions", payload)
-    //   .then(data => {
-    //     console.log(axios.defaults);
-
-    //     console.log("DATA>DATA", data.data);
-    //     commit(SET_AUTH, data.data);
-    //     resolve();
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     reject();
-    //   });
-    // });
+  },
+  async [LOGOUT]({ commit }) {
+    commit(DESTROY_AUTH);
   },
   [CHECK_AUTH]({ commit }) {
     axios
@@ -68,6 +56,11 @@ const mutations = {
   },
   [VERIFY_USER](state, payload) {
     state.user = payload;
+  },
+  [DESTROY_AUTH](state) {
+    localStorage.setItem("token", null);
+    state.token = null;
+    state.user = null;
   }
 };
 

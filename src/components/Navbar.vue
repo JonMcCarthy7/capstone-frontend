@@ -22,7 +22,7 @@
       </v-menu>
 
       <v-btn v-if="isLogged" flat color="grey">
-        <span>Sign Out</span>
+        <span @click="logOut">Sign Out</span>
         <v-icon right>exit_to_app</v-icon>
       </v-btn>
     </v-toolbar>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { LOGOUT } from "@/store/actions.type";
 export default {
   components: {},
   data() {
@@ -61,6 +62,14 @@ export default {
   computed: {
     isLogged() {
       return !!this.$store.state.auth.user.id ? true : false;
+    }
+  },
+  methods: {
+    logOut() {
+      this.$store
+        .dispatch(LOGOUT)
+        .then(() => this.$router.go({ name: "log_in" }))
+        .catch(err => console.log(err));
     }
   }
 };

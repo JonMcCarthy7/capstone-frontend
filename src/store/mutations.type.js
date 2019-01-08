@@ -1,6 +1,7 @@
 // AUTH
 export const SET_AUTH = "SET_AUTH";
 export const VERIFY_USER = "VERIFY_USER";
+export const DESTROY_AUTH = "DESTROY_AUTH";
 
 // COFFEE
 export const ADD_COFFEE = "ADD_COFFEE";
