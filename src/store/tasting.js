@@ -35,10 +35,10 @@ const actions = {
           payload.tasting
         )
         .then(tasting_id => {
-          console.log("TASTING ID", tasting_id.payload.id[0]);
+          console.log("TASTING ID", tasting_id);
           axios
             .post(
-              `/tastings_tasting_notes/${tasting_id.payload.id[0]}`,
+              `/tastings_tasting_notes/${tasting_id.data.id[0]}`,
               payload.tasting_ids
             )
             .then(results => {

@@ -31,7 +31,7 @@
                   >
                     <v-icon>add</v-icon>
                   </v-btn>
-                  <v-btn fab dark small color="red">
+                  <v-btn @click="deleteCoffee" fab dark small color="red">
                     <v-icon>delete</v-icon>
                   </v-btn>
                 </v-speed-dial>
@@ -100,6 +100,9 @@
                                 color="green"
                               >
                                 <v-icon>edit</v-icon>
+                              </v-btn>
+                              <v-btn @click="deleteTasting(t.id)" fab dark small color="red">
+                                <v-icon>delete</v-icon>
                               </v-btn>
                             </v-speed-dial>
                             <div class="display-2">{{t.brew_method}}</div>
@@ -173,7 +176,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { GET_COFFEE, GET_COFFEE_TASTINGS } from "@/store/actions.type";
+import {
+  GET_COFFEE,
+  GET_COFFEE_TASTINGS,
+  DELETE_COFFEE_SUCCESS,
+  DELETE_TASTING_SUCCESS
+} from "@/store/actions.type";
 import moment from "moment";
 export default {
   data() {
@@ -185,6 +193,30 @@ export default {
   methods: {
     formattedDate(date) {
       return moment(date).format("MMMM Do YYYY");
+    },
+    deleteCoffee() {
+      this.$store
+        .dispatch(DELETE_COFFEE_SUCCESS, {
+          users_id: this.$store.state.auth.user.id,
+          coffee_id: this.$route.params.coffee_id
+        })
+        .then(() => this.$router.push({ name: "dashboard" }))
+        .catch(err => console.log(err));
+    },
+    deleteTasting(id) {
+      this.$store
+        .dispatch(DELETE_TASTING_SUCCESS, {
+          users_id: this.$store.state.auth.user.id,
+          coffee_id: +this.$route.params.coffee_id,
+          tastings_id: id
+        })
+        .then(() =>
+          this.$router.push({
+            name: "coffee",
+            params: { coffee_id: this.$route.params.coffee_id }
+          })
+        )
+        .catch(err => console.log(err));
     }
   },
   created() {

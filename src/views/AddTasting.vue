@@ -92,6 +92,24 @@ export default {
   },
   methods: {
     submit() {
+      // console.log({
+      //   users_id: this.$store.state.auth.user.id,
+      //   coffee_id: +this.$router.history.current.params.coffee_id,
+      //   tasting: {
+      //     brew_method: this.brew_method,
+      //     favorite: this.favorite,
+      //     rating: +this.rating,
+      //     body: +this.body,
+      //     acidity: +this.acidity,
+      //     sweetness: +this.sweetness,
+      //     smoothness: +this.smoothness,
+      //     tasting_date: this.tasting_date,
+      //     roasting_profile: this.roasting_profile,
+      //     description: this.description
+      //   },
+      //   tasting_ids: this.tastings
+      // });
+
       if (this.$refs.form.validate()) {
         this.$store
           .dispatch(ADD_TASTING, {

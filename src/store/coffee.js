@@ -4,14 +4,17 @@ import {
   GET_COFFEE,
   GET_COFFEE_TASTINGS,
   GET_COFFEE_TASTING,
-  EDIT_COFFEE_SUCCESS
+  EDIT_COFFEE_SUCCESS,
+  DELETE_COFFEE_SUCCESS,
+  DELETE_TASTING_SUCCESS
 } from "./actions.type";
 import {
   ADD_COFFEE,
   SET_COFFEE,
   COFFEE,
   COFFEE_TASTINGS,
-  COFFEE_TASTING
+  COFFEE_TASTING,
+  DELETE_TASTING
 } from "./mutations.type";
 import axios from "@/axios";
 
@@ -30,9 +33,12 @@ const getters = {
 
 const actions = {
   [ADD_COFFEE_SUCCESS]({ commit }, coffee) {
+    console.log(coffee);
+
     axios
       .post("/coffee", coffee)
       .then(data => {
+        console.log(data);
         console.log("ADDED COFFEE", data.data.coffee[0]);
         commit(ADD_COFFEE, data.data.coffee[0]);
       })
@@ -46,18 +52,16 @@ const actions = {
       payload.coffee
     );
     return response;
-    // axios
-    //   .post(
-    //     `/users/${payload.coffee.users_id}/coffee/${payload.coffee_id}`,
-    //     payload.coffee
-    //   )
-    //   .then(data => {
-    //     console.log("Updated Coffee", data.data);
-    //     // commit(ADD_COFFEE, data.data.coffee[0]);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+  },
+  async [DELETE_COFFEE_SUCCESS]({ commit }, payload) {
+    try {
+      let response = await axios.delete(
+        `/users/${payload.users_id}/coffee/${payload.coffee_id}`
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   },
   [GET_ALL_COFFEE]({ commit }, users_id) {
     axios
@@ -108,6 +112,19 @@ const actions = {
       .catch(err => {
         console.log(err);
       });
+  },
+  async [DELETE_TASTING_SUCCESS]({ commit }, payload) {
+    try {
+      let response = await axios.delete(
+        `/users/${payload.users_id}/coffee/${payload.coffee_id}/tastings/${
+          payload.tastings_id
+        }`
+      );
+      commit(DELETE_TASTING, payload.tastings_id);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
@@ -126,6 +143,9 @@ const mutations = {
   },
   [COFFEE_TASTING](state, payload) {
     state.tasting = payload;
+  },
+  [DELETE_TASTING](state, payload) {
+    state.tastings = state.tastings.filter(el => el.id !== payload);
   }
 };
 
