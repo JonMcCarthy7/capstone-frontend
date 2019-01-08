@@ -3,23 +3,51 @@
     <h1 class="subheading grey--text">Dashboard</h1>
     <v-container class="my-5">
       <v-layout row wrap align-center class="mb-3">
-        <v-flex xs12 sm6 md6>
+        <v-flex xs12 sm12 md6>
           <v-tooltip top>
-            <v-btn small flat color="grey" @click="sortBy('created_at')" slot="activator">
+            <v-btn
+              small
+              flat
+              color="grey"
+              @click="sortBy('created_at')"
+              :class="sortSwitch ? 'v-btn--active' : ''"
+              slot="activator"
+            >
               <v-icon small left>folder</v-icon>
               <span class="caption text-lowercase">By Most Recent</span>
             </v-btn>
             <span>Sort by most recent</span>
           </v-tooltip>
           <v-tooltip top>
-            <v-btn small flat color="grey" @click="sortBy('coffee_name')" slot="activator">
-              <v-icon small left>person</v-icon>
+            <v-btn
+              small
+              flat
+              color="grey"
+              @click="sortBy('coffee_name')"
+              :class="!sortSwitch ? 'v-btn--active' : ''"
+              slot="activator"
+            >
+              <v-icon small left>list</v-icon>
               <span class="caption text-lowercase">By Coffee Name</span>
             </v-btn>
-            <span>Sort by coffee name</span>
+            <span>Sort by coffee Name</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-btn
+              :class="filteredByFavorite ? 'v-btn--active' : ''"
+              small
+              flat
+              color="grey"
+              @click="filteredByFavorite = !filteredByFavorite && searchCoffee('favorite')"
+              slot="activator"
+            >
+              <v-icon small left>check</v-icon>
+              <span class="caption text-lowercase">By Favorite</span>
+            </v-btn>
+            <span>Sort by favorite coffee</span>
           </v-tooltip>
         </v-flex>
-        <v-flex xs12 sm6 md6>
+        <v-flex xs12 sm12 md6>
           <v-text-field label="Search by Coffee Name" @input="searchCoffee" v-model="searchWord"></v-text-field>
         </v-flex>
       </v-layout>
@@ -62,7 +90,9 @@ export default {
   data() {
     return {
       user: "",
-      searchWord: ""
+      searchWord: "",
+      filteredByFavorite: false,
+      sortSwitch: true
     };
   },
   computed: {
@@ -70,19 +100,29 @@ export default {
   },
   methods: {
     sortBy(prop) {
-      prop === "created_at"
-        ? this.coffee.sort((a, b) => (a[prop] > b[prop] ? -1 : 1))
-        : this.coffee.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+      if (prop === "created_at") {
+        this.coffee.sort((a, b) => (a[prop] > b[prop] ? -1 : 1));
+        this.sortSwitch = true;
+      } else {
+        this.coffee.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+        this.sortSwitch = false;
+      }
     },
-    searchCoffee() {
-      return this.coffee.filter(el =>
-        el.coffee_name.toLowerCase().includes(this.searchWord.toLowerCase())
-      );
+    searchCoffee(prop) {
+      return this.coffee.filter(el => {
+        let include = true;
+        if (this.filteredByFavorite && !el.favorite) include = false;
+        return (
+          include &&
+          el.coffee_name.toLowerCase().includes(this.searchWord.toLowerCase())
+        );
+      });
     }
   },
   created() {
     this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id); // TODO: id is hard coded
     // this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id);
+    this.filteredCoffee = this.coffee;
   }
 };
 // window.scrollTo(x-coord, y-coord);

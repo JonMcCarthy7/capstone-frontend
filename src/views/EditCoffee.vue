@@ -28,6 +28,10 @@
           <v-text-field v-model="coffee.varietal" :rules="textRules" label="Varietal"></v-text-field>
           <v-text-field v-model="coffee.shop" :rules="textRules" label="Coffee Shop"></v-text-field>
           <v-text-field v-model="coffee.altitude" :rules="textRules" label="Altitude"></v-text-field>
+          <v-switch
+            v-model="coffee.favorite"
+            :label="`Favorite: ${coffee.favorite ? 'Yes' : 'No'}`"
+          ></v-switch>
         </v-flex>
         <v-flex xs12 md6>
           <v-textarea
@@ -59,6 +63,7 @@ export default {
     shop: "",
     region: "",
     altitude: "",
+    favorite: "",
     processing_method: "",
     varietal: "",
     notes: "",
@@ -85,6 +90,7 @@ export default {
               shop: this.coffee.shop,
               region: this.coffee.region,
               altitude: this.coffee.altitude,
+              favorite: this.coffee.favorite,
               processing_method: this.coffee.processing_method,
               varietal: this.coffee.varietal,
               notes: this.coffee.notes
