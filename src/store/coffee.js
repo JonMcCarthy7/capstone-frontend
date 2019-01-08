@@ -32,11 +32,9 @@ const getters = {
 };
 
 const actions = {
-  [ADD_COFFEE_SUCCESS]({ commit }, coffee) {
-    console.log(coffee);
-
+  [ADD_COFFEE_SUCCESS]({ commit }, payload) {
     axios
-      .post("/coffee", coffee)
+      .post(`/users/${payload.users_id}/coffee`, payload)
       .then(data => {
         console.log(data);
         console.log("ADDED COFFEE", data.data.coffee[0]);
