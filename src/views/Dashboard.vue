@@ -2,24 +2,34 @@
   <div v-if="coffee.length > 0">
     <h1 class="subheading grey--text">Dashboard</h1>
     <v-container class="my-5">
-      <v-layout row justify-start class="mb-3">
-        <v-tooltip top>
-          <v-btn small flat color="grey" @click="sortBy('title')" slot="activator">
-            <v-icon small left>folder</v-icon>
-            <span class="caption text-lowercase">By project name</span>
-          </v-btn>
-          <span>Sort by project name</span>
-        </v-tooltip>
-        <v-tooltip top>
-          <v-btn small flat color="grey" @click="sortBy('person')" slot="activator">
-            <v-icon small left>person</v-icon>
-            <span class="caption text-lowercase">By Person</span>
-          </v-btn>
-          <span>Sort by project author</span>
-        </v-tooltip>
+      <v-layout row align-center class="mb-3">
+        <v-flex xs8>
+          <v-tooltip top>
+            <v-btn small flat color="grey" @click="sortBy('created_at')" slot="activator">
+              <v-icon small left>folder</v-icon>
+              <span class="caption text-lowercase">By Most Recent</span>
+            </v-btn>
+            <span>Sort by most recent</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-btn small flat color="grey" @click="sortBy('coffee_name')" slot="activator">
+              <v-icon small left>person</v-icon>
+              <span class="caption text-lowercase">By Coffee Name</span>
+            </v-btn>
+            <span>Sort by coffee name</span>
+          </v-tooltip>
+        </v-flex>
+        <v-flex xs4>
+          <v-text-field
+            offset-y
+            label="Search by Coffee Name"
+            @input="searchCoffee"
+            v-model="searchWord"
+          ></v-text-field>
+        </v-flex>
       </v-layout>
 
-      <v-card v-for="c in coffee" :key="c.id">
+      <v-card v-for="c in searchCoffee()" :key="c.id">
         <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
           <v-flex xs12 md4>
             <div class="caption grey--text">Coffee Name</div>
@@ -56,13 +66,25 @@ import { GET_ALL_COFFEE } from "@/store/actions.type";
 export default {
   data() {
     return {
-      user: ""
+      user: "",
+      searchWord: ""
     };
   },
   computed: {
     ...mapGetters(["coffee"])
   },
-  methods: {},
+  methods: {
+    sortBy(prop) {
+      prop === "created_at"
+        ? this.coffee.sort((a, b) => (a[prop] > b[prop] ? -1 : 1))
+        : this.coffee.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+    },
+    searchCoffee() {
+      return this.coffee.filter(el =>
+        el.coffee_name.toLowerCase().includes(this.searchWord.toLowerCase())
+      );
+    }
+  },
   created() {
     this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id); // TODO: id is hard coded
     // this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id);
