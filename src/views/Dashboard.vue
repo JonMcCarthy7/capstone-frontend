@@ -2,8 +2,8 @@
   <div v-if="coffee.length > 0">
     <h1 class="subheading grey--text">Dashboard</h1>
     <v-container class="my-5">
-      <v-layout row align-center class="mb-3">
-        <v-flex xs8>
+      <v-layout row wrap align-center class="mb-3">
+        <v-flex xs12 sm6 md6>
           <v-tooltip top>
             <v-btn small flat color="grey" @click="sortBy('created_at')" slot="activator">
               <v-icon small left>folder</v-icon>
@@ -19,13 +19,8 @@
             <span>Sort by coffee name</span>
           </v-tooltip>
         </v-flex>
-        <v-flex xs4>
-          <v-text-field
-            offset-y
-            label="Search by Coffee Name"
-            @input="searchCoffee"
-            v-model="searchWord"
-          ></v-text-field>
+        <v-flex xs12 sm6 md6>
+          <v-text-field label="Search by Coffee Name" @input="searchCoffee" v-model="searchWord"></v-text-field>
         </v-flex>
       </v-layout>
 
