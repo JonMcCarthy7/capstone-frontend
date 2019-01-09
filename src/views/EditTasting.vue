@@ -149,12 +149,22 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch(GET_COFFEE_TASTING, {
-      users_id: this.$store.state.auth.user.id,
-      coffee_id: this.$router.history.current.params.coffee_id,
-      tastings_id: this.$router.history.current.params.tastings_id
-    });
-    this.$store.dispatch(GET_TASTING_NOTES_SUCCESS);
+    this.$store
+      .dispatch(GET_COFFEE_TASTING, {
+        users_id: this.$store.state.auth.user.id,
+        coffee_id: this.$router.history.current.params.coffee_id,
+        tastings_id: this.$router.history.current.params.tastings_id
+      })
+      .then(() => {
+        this.$store.dispatch(GET_TASTING_NOTES_SUCCESS);
+      })
+      .then(() => {
+        if (
+          this.$store.state.auth.user.id !==
+          this.$store.state.coffee.tasting.tasting[0].users_id
+        )
+          this.$router.go(-1);
+      });
   }
 };
 </script>

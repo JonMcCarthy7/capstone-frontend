@@ -1,8 +1,8 @@
 <template>
-  <div v-if="coffee.length > 0">
-    <h1 class="subheading grey--text">Dashboard</h1>
+  <div v-if="allCoffee.length > 0">
+    <h1 class="subheading grey--text">Coffee Feed</h1>
     <v-container class="my-5">
-      <v-layout row wrap align-center class="mb-3">
+      <!-- <v-layout row wrap align-center class="mb-3">
         <v-flex xs12 sm12 md6>
           <v-tooltip top>
             <v-btn
@@ -50,9 +50,8 @@
         <v-flex xs12 sm12 md6>
           <v-text-field label="Search by Coffee Name" @input="searchCoffee" v-model="searchWord"></v-text-field>
         </v-flex>
-      </v-layout>
-
-      <v-card v-for="c in searchCoffee()" :key="c.id">
+      </v-layout>-->
+      <v-card v-for="c in allCoffee" :key="c.id">
         <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
           <v-flex xs12 md4>
             <div class="caption grey--text">Coffee Name</div>
@@ -89,7 +88,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { GET_USERS_COFFEE } from "@/store/actions.type";
+import { GET_ALL_COFFEE } from "@/store/actions.type";
 export default {
   data() {
     return {
@@ -100,31 +99,31 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["coffee"])
+    ...mapGetters(["allCoffee"])
   },
   methods: {
-    sortBy(prop) {
-      if (prop === "created_at") {
-        this.coffee.sort((a, b) => (a[prop] > b[prop] ? -1 : 1));
-        this.sortSwitch = true;
-      } else {
-        this.coffee.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
-        this.sortSwitch = false;
-      }
-    },
-    searchCoffee(prop) {
-      return this.coffee.filter(el => {
-        let include = true;
-        if (this.filteredByFavorite && !el.favorite) include = false;
-        return (
-          include &&
-          el.coffee_name.toLowerCase().includes(this.searchWord.toLowerCase())
-        );
-      });
-    }
+    // sortBy(prop) {
+    //   if (prop === "created_at") {
+    //     this.coffee.sort((a, b) => (a[prop] > b[prop] ? -1 : 1));
+    //     this.sortSwitch = true;
+    //   } else {
+    //     this.coffee.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+    //     this.sortSwitch = false;
+    //   }
+    // },
+    // searchCoffee(prop) {
+    //   return this.coffee.filter(el => {
+    //     let include = true;
+    //     if (this.filteredByFavorite && !el.favorite) include = false;
+    //     return (
+    //       include &&
+    //       el.coffee_name.toLowerCase().includes(this.searchWord.toLowerCase())
+    //     );
+    //   });
+    // }
   },
   created() {
-    this.$store.dispatch(GET_USERS_COFFEE, this.$store.state.auth.user.id);
+    this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id); // TODO: id is hard coded
     // this.$store.dispatch(GET_USERS_COFFEE, this.$store.state.auth.user.id);
   }
 };

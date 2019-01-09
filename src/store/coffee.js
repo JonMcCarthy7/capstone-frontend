@@ -1,6 +1,6 @@
 import {
   ADD_COFFEE_SUCCESS,
-  GET_ALL_COFFEE,
+  GET_USERS_COFFEE,
   GET_COFFEE,
   GET_COFFEE_TASTINGS,
   GET_COFFEE_TASTING,
@@ -61,7 +61,7 @@ const actions = {
       console.log(error);
     }
   },
-  [GET_ALL_COFFEE]({ commit }, users_id) {
+  [GET_USERS_COFFEE]({ commit }, users_id) {
     axios
       .get(`/users/${users_id}/coffee`)
       .then(data => {
@@ -71,45 +71,40 @@ const actions = {
         console.log(err);
       });
   },
-  [GET_COFFEE]({ commit }, payload) {
-    axios
-      .get(`/users/${payload.users_id}/coffee/${payload.coffee_id}`)
-      .then(data => {
-        commit(COFFEE, data.data[0]);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  async [GET_COFFEE]({ commit }, payload) {
+    try {
+      let response = await axios.get(
+        `/users/${payload.users_id}/coffee/${payload.coffee_id}`
+      );
+      commit(COFFEE, response.data[0]);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   },
-  [GET_COFFEE_TASTINGS]({ commit }, payload) {
-    axios
-      .get(`/users/${payload.users_id}/coffee/${payload.coffee_id}/tastings`)
-      .then(data => {
-        console.log(data.data.rows);
-
-        commit(COFFEE_TASTINGS, data.data.rows);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  async [GET_COFFEE_TASTINGS]({ commit }, payload) {
+    try {
+      let response = await axios.get(
+        `/users/${payload.users_id}/coffee/${payload.coffee_id}/tastings`
+      );
+      commit(COFFEE_TASTINGS, response.data.rows);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   },
-  [GET_COFFEE_TASTING]({ commit }, payload) {
-    console.log(payload);
-
-    axios
-      .get(
+  async [GET_COFFEE_TASTING]({ commit }, payload) {
+    try {
+      let response = await axios.get(
         `/users/${payload.users_id}/coffee/${payload.coffee_id}/tastings/${
           payload.tastings_id
         }`
-      )
-      .then(data => {
-        console.log(data.data);
-
-        commit(COFFEE_TASTING, data.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      );
+      commit(COFFEE_TASTING, response.data);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   },
   async [DELETE_TASTING_SUCCESS]({ commit }, payload) {
     try {

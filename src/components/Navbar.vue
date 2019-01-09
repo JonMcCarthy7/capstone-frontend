@@ -54,8 +54,9 @@ export default {
     return {
       drawer: false,
       links: [
-        { icon: "dashboard", text: "Dashboard", route: "/" },
-        { icon: "folder", text: "Add Coffee", route: "/add_coffee" }
+        { icon: "list", text: "Feed", route: "/" },
+        { icon: "dashboard", text: "Dashboard", route: "/dashboard" },
+        { icon: "add", text: "Add Coffee", route: "/add_coffee" }
       ]
     };
   },

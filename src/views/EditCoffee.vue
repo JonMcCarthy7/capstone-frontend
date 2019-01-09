@@ -77,7 +77,6 @@ export default {
   computed: {
     ...mapGetters(["coffee"])
   },
-
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
@@ -111,10 +110,15 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch(GET_COFFEE, {
-      users_id: this.$store.state.auth.user.id,
-      coffee_id: this.$route.params.coffee_id
-    });
+    this.$store
+      .dispatch(GET_COFFEE, {
+        users_id: this.$store.state.auth.user.id,
+        coffee_id: this.$route.params.coffee_id
+      })
+      .then(() => {
+        if (this.coffee.users_id !== this.$store.state.auth.user.id)
+          this.$router.go(-1);
+      });
   }
 };
 </script>
