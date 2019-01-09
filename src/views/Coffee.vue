@@ -213,16 +213,20 @@ export default {
         .catch(err => console.log(err));
     },
     deleteTasting(id) {
+      console.log(id);
       this.$store
         .dispatch(DELETE_TASTING_SUCCESS, {
-          users_id: this.$route.params.users_id,
-          coffee_id: +this.$route.params.coffee_id,
+          users_id: this.$store.state.auth.user.id,
+          coffee_id: this.$route.params.coffee_id,
           tastings_id: id
         })
         .then(() =>
           this.$router.push({
             name: "coffee",
-            params: { coffee_id: this.$route.params.coffee_id }
+            params: {
+              users_id: this.$store.state.auth.user.id,
+              coffee_id: this.$route.params.coffee_id
+            }
           })
         )
         .catch(err => console.log(err));

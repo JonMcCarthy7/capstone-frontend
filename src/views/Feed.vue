@@ -2,8 +2,8 @@
   <div v-if="allCoffee.length > 0">
     <h1 class="subheading grey--text">Coffee Feed</h1>
     <v-container class="my-5">
-      <!-- <v-layout row wrap align-center class="mb-3">
-        <v-flex xs12 sm12 md6>
+      <v-layout row wrap align-center class="mb-3">
+        <v-flex xs12 sm12 md4>
           <v-tooltip top>
             <v-btn
               small
@@ -13,10 +13,10 @@
               :class="sortSwitch ? 'v-btn--active' : ''"
               slot="activator"
             >
-              <v-icon small left>folder</v-icon>
-              <span class="caption text-lowercase">By Most Recent</span>
+              <v-icon small left>list</v-icon>
+              <span class="caption text-lowercase">Coffee Feed</span>
             </v-btn>
-            <span>Sort by most recent</span>
+            <span>Most Recent Coffee</span>
           </v-tooltip>
           <v-tooltip top>
             <v-btn
@@ -27,10 +27,10 @@
               :class="!sortSwitch ? 'v-btn--active' : ''"
               slot="activator"
             >
-              <v-icon small left>list</v-icon>
-              <span class="caption text-lowercase">By Coffee Name</span>
+              <v-icon small left>landscape</v-icon>
+              <span class="caption text-lowercase">By Origin</span>
             </v-btn>
-            <span>Sort by coffee Name</span>
+            <span>Search by Coffee Origin</span>
           </v-tooltip>
           <v-tooltip top>
             <v-btn
@@ -41,17 +41,20 @@
               @click="filteredByFavorite = !filteredByFavorite && searchCoffee('favorite')"
               slot="activator"
             >
-              <v-icon small left>check</v-icon>
-              <span class="caption text-lowercase">By Favorite</span>
+              <v-icon small left>account_box</v-icon>
+              <span class="caption text-lowercase">By Username</span>
             </v-btn>
-            <span>Sort by favorite coffee</span>
+            <span>Search for Username</span>
           </v-tooltip>
         </v-flex>
-        <v-flex xs12 sm12 md6>
-          <v-text-field label="Search by Coffee Name" @input="searchCoffee" v-model="searchWord"></v-text-field>
+        <v-flex xs6 sm6 md3>
+          <v-btn class="right" color="accent" :to="{name: 'register'}">SEARCH</v-btn>
         </v-flex>
-      </v-layout>-->
-      <v-card v-for="c in allCoffee" :key="c.id">
+        <v-flex xs12 sm12 md5>
+          <v-text-field label="Search by Coffee Name" v-model="searchWord"></v-text-field>
+        </v-flex>
+      </v-layout>
+      <v-card v-for="c in searchCoffee()" :key="c.id">
         <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
           <v-flex xs12 md4>
             <div class="caption grey--text">Coffee Name</div>
@@ -111,16 +114,11 @@ export default {
     //     this.sortSwitch = false;
     //   }
     // },
-    // searchCoffee(prop) {
-    //   return this.coffee.filter(el => {
-    //     let include = true;
-    //     if (this.filteredByFavorite && !el.favorite) include = false;
-    //     return (
-    //       include &&
-    //       el.coffee_name.toLowerCase().includes(this.searchWord.toLowerCase())
-    //     );
-    //   });
-    // }
+    searchCoffee() {
+      return this.allCoffee.filter(el => {
+        return el.coffee_name.toLowerCase().includes(this.searchWord || "");
+      });
+    }
   },
   created() {
     this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id); // TODO: id is hard coded
