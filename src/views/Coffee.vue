@@ -8,7 +8,8 @@
             <v-card-title primary-title class="grey lighten-2">
               <v-layout align-center justify-space-between row wrap fill-height>
                 <div class="display-2">{{coffee.coffee_name}}</div>
-                <v-speed-dial ml-3 absolute dark right small direction="bottom">
+
+                <v-speed-dial v-if="currentUser" ml-3 absolute dark right small direction="bottom">
                   <v-btn slot="activator" color="blue darken-2" dark fab>
                     <v-icon>account_circle</v-icon>
                     <v-icon>close</v-icon>
@@ -87,7 +88,15 @@
                       <v-card>
                         <v-card-title primary-title class="grey lighten-2">
                           <v-layout align-start row wrap>
-                            <v-speed-dial ml-3 absolute dark right small direction="bottom">
+                            <v-speed-dial
+                              v-if="currentUser"
+                              ml-3
+                              absolute
+                              dark
+                              right
+                              small
+                              direction="bottom"
+                            >
                               <v-btn slot="activator" color="blue darken-2" dark fab>
                                 <v-icon>account_circle</v-icon>
                                 <v-icon>close</v-icon>
@@ -185,7 +194,7 @@ import {
 import moment from "moment";
 export default {
   data() {
-    return { fab: false };
+    return { fab: false, currentUser: false };
   },
   computed: {
     ...mapGetters(["coffee", "tastings"])
@@ -200,34 +209,48 @@ export default {
           users_id: this.$store.state.auth.user.id,
           coffee_id: this.$route.params.coffee_id
         })
-        .then(() => this.$router.push({ name: "dashboard" }))
+        .then(() =>
+          this.$router.push({
+            name: "dashboard",
+            params: { users_id: this.$store.state.auth.user.id }
+          })
+        )
         .catch(err => console.log(err));
     },
     deleteTasting(id) {
+      console.log(id);
       this.$store
         .dispatch(DELETE_TASTING_SUCCESS, {
           users_id: this.$store.state.auth.user.id,
-          coffee_id: +this.$route.params.coffee_id,
+          coffee_id: this.$route.params.coffee_id,
           tastings_id: id
         })
         .then(() =>
           this.$router.push({
             name: "coffee",
-            params: { coffee_id: this.$route.params.coffee_id }
+            params: {
+              users_id: this.$store.state.auth.user.id,
+              coffee_id: this.$route.params.coffee_id
+            }
           })
         )
         .catch(err => console.log(err));
     }
   },
   created() {
-    this.$store.dispatch(GET_COFFEE, {
-      users_id: this.$store.state.auth.user.id,
-      coffee_id: this.$route.params.coffee_id
-    });
-    this.$store.dispatch(GET_COFFEE_TASTINGS, {
-      users_id: this.$store.state.auth.user.id,
-      coffee_id: this.$route.params.coffee_id
-    });
+    this.$store
+      .dispatch(GET_COFFEE, {
+        users_id: this.$route.params.users_id,
+        coffee_id: this.$route.params.coffee_id
+      })
+      .then(() => {
+        this.$store.dispatch(GET_COFFEE_TASTINGS, {
+          users_id: this.$route.params.users_id,
+          coffee_id: this.$route.params.coffee_id
+        });
+      });
+    this.currentUser =
+      this.$store.state.auth.user.id == this.$route.params.users_id;
   }
 };
 </script>

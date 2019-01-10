@@ -59,7 +59,12 @@ export default {
             email: this.email,
             password: this.password
           })
-          .then(() => this.$router.push({ name: "dashboard" }))
+          .then(() =>
+            this.$router.push({
+              name: "dashboard",
+              params: { users_id: this.$store.state.auth.user.id }
+            })
+          )
           .catch(err => console.log(err));
       }
     },

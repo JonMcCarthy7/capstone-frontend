@@ -71,7 +71,11 @@
           </v-flex>
           <v-flex xs12 sm4 md2>
             <div class="right">
-              <v-btn color="accent" :to="{name: 'coffee', params:{coffee_id: c.id}}" fab>
+              <v-btn
+                color="accent"
+                :to="{name: 'coffee', params:{users_id: c.users_id, coffee_id: c.id}}"
+                fab
+              >
                 <v-icon>forward</v-icon>
               </v-btn>
             </div>
@@ -85,7 +89,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { GET_ALL_COFFEE } from "@/store/actions.type";
+import { GET_USERS_COFFEE } from "@/store/actions.type";
 export default {
   data() {
     return {
@@ -120,9 +124,8 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id); // TODO: id is hard coded
-    // this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id);
-    this.filteredCoffee = this.coffee;
+    this.$store.dispatch(GET_USERS_COFFEE, this.$route.params.users_id);
+    // this.$store.dispatch(GET_USERS_COFFEE, this.$store.state.auth.user.id);
   }
 };
 // window.scrollTo(x-coord, y-coord);

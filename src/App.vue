@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLogged">
     <v-app class="grey lighten-3">
-      <Navbar></Navbar>
+      <Navbar :users_id="this.$store.state.auth.user.id"></Navbar>
       <v-content class="mx-4 mb-4">
         <router-view></router-view>
       </v-content>
