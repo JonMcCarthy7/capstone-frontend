@@ -65,12 +65,13 @@ export default {
         {
           icon: "dashboard",
           text: "Dashboard",
-          route: `/dashboard/${this.$store.state.auth.user.id}`
+          route: `/dashboard/${this.users_id}`
         },
         { icon: "add", text: "Add Coffee", route: "/add_coffee" }
       ]
     };
   },
+  props: ["users_id"],
   computed: {
     isLogged() {
       return !!this.$store.state.auth.user.id ? true : false;
