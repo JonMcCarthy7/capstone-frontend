@@ -47,7 +47,7 @@
             <span>Search for Username</span>
           </v-tooltip>
         </v-flex>
-        <v-flex md2>
+        <v-flex xs12 sm12 md2>
           <!-- <v-btn v-if="userSwitch" class="right" color="accent">Search</v-btn> -->
         </v-flex>
         <v-flex xs12 sm12 md6>
@@ -60,15 +60,15 @@
       <div v-if="!userSwitch">
         <v-card v-for="c in searchCoffee()" :key="c.id">
           <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
-            <v-flex xs12 md4>
+            <v-flex xs12 sm3 md3>
               <div class="caption grey--text">Coffee Name</div>
               <div class="headline my-1">{{ c.coffee_name }}</div>
             </v-flex>
-            <v-flex xs12 sm4 md3>
+            <v-flex xs12 sm3 md3>
               <div class="caption grey--text">Processing Method</div>
               <div class="title mb-1 mt-2">{{ c.processing_method }}</div>
             </v-flex>
-            <v-flex xs12 sm4 md3>
+            <v-flex xs12 sm3 md3>
               <div class="caption grey--text">Origin</div>
               <v-chip
                 small
@@ -92,13 +92,14 @@
       </div>
       <div v-if="userSwitch && allUsers">
         <v-card v-for="user in searchUsers()" :key="user.id">
-          <v-layout row wrap class="pa-3">
-            <v-flex xs6 sm6 md6>
-              <div class="caption grey--text">Username</div>
-              <div class="headline my-1 ml-2">{{ user.username }}</div>
+          <v-layout align-center justify-start row wrap class="pa-2 user">
+            <v-flex xs8 sm8 md8>
+              <div class="headline my-1">
+                <v-icon fab medium color="accent">account_box</v-icon>
+                {{ user.username }}
+              </div>
             </v-flex>
-
-            <v-flex xs12 sm6 md6>
+            <v-flex xs4 sm4 md4>
               <div class="right">
                 <v-btn color="accent" :to="{name: 'dashboard', params: {users_id: user.id}}" fab>
                   <v-icon>forward</v-icon>
@@ -201,6 +202,9 @@ export default {
 </script>
 
 <style>
+.user {
+  border-left: 4px solid #a1887f;
+}
 .coffee.burndi {
   border-left: 4px solid #66bb6a;
 }
