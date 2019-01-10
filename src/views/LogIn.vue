@@ -1,9 +1,14 @@
 <template>
-  <v-container>
+  <v-container grid-list-xl>
     <v-layout align-center justify-center row wrap>
       <v-flex xs12 sm10 md8>
-        <v-card class="pa-3">
-          <v-toolbar-title>Login</v-toolbar-title>
+        <v-card class="pa-3 grey lighten-5">
+          <v-toolbar-title>
+            Log In
+            <span class="right">
+              <v-btn color="accent" :to="{name: 'register'}">register</v-btn>
+            </span>
+          </v-toolbar-title>
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
             <v-text-field
@@ -20,11 +25,6 @@
               <v-flex xs6>
                 <v-btn :disabled="!valid" @click="submit">submit</v-btn>
                 <v-btn @click="clear">clear</v-btn>
-              </v-flex>
-              <v-flex 6 xs>
-                <div class="right">
-                  <v-btn color="accent" :to="{name: 'register'}">register</v-btn>
-                </div>
               </v-flex>
             </v-card-actions>
           </v-form>
