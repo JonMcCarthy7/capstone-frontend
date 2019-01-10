@@ -8,7 +8,6 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <!-- dropdown menu -->
       <v-menu v-if="isLogged" offset-y>
         <v-btn flat slot="activator" color="grey">
           <v-icon left>expand_more</v-icon>

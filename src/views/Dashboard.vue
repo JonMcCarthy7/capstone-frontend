@@ -1,6 +1,23 @@
 <template>
   <div v-if="coffee.length > 0">
-    <h1 class="subheading grey--text mt-1">Dashboard</h1>
+    <v-layout align-start justify-space-between row>
+      <h1 class="subheading grey--text mt-1">Dashboard</h1>
+
+      <div class="right">
+        <v-dialog width="80em">
+          <v-btn slot="activator">
+            <v-icon>donut_large</v-icon>
+          </v-btn>
+          <v-card>
+            <v-container grid-list-lg>
+              <v-layout align-center justify-center row wrap>
+                <div id="container"></div>
+              </v-layout>
+            </v-container>
+          </v-card>
+        </v-dialog>
+      </div>
+    </v-layout>
     <v-container class="my-3">
       <v-layout row wrap align-center class="mb-3">
         <v-flex xs12 sm12 md6>
@@ -90,11 +107,40 @@
       </v-card>
     </v-container>
   </div>
+  <div v-else>
+    <v-container class="my-3" grid-list-md>
+      <v-layout row wrap>
+        <v-flex xs12 sm12 md12>
+          <v-card color class="grey--text">
+            <v-card-title primary-title class="grey lighten-2">
+              <v-layout align-center justify-center row wrap fill-height>
+                <div class="display-2 grey--text text--darken-2">
+                  Welcome to
+                  <span class="font-weight-light">Un</span>
+                  <span>Brewed</span>
+                </div>
+              </v-layout>
+            </v-card-title>
+            <v-layout align-center justify-center row wrap fill-height class="pa-4">
+              <div
+                class="headline grey--text text--darken-2 mt-1"
+              >Get Started With Adding a Coffee to Your Logs</div>
+              <v-btn color="accent" :to="{name: 'add_coffee'}" fab>
+                <v-icon>add</v-icon>
+              </v-btn>
+            </v-layout>
+          </v-card>
+        </v-flex>
+      </v-layout>
+      <v-divider></v-divider>
+    </v-container>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { GET_USERS_COFFEE } from "@/store/actions.type";
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
@@ -131,12 +177,75 @@ export default {
   created() {
     this.$store.dispatch(GET_USERS_COFFEE, this.$route.params.users_id);
     // this.$store.dispatch(GET_USERS_COFFEE, this.$store.state.auth.user.id);
+    setTimeout(() => {
+      anychart.onDocumentReady(function() {
+        // The data used in this sample can be obtained from the CDN
+        // https://cdn.anychart.com/samples/sunburst-charts/coffee-flavour-wheel/data.json
+        anychart.data.loadJsonFile(
+          "https://cdn.anychart.com/samples/sunburst-charts/coffee-flavour-wheel/data.json",
+          function(data) {
+            // makes tree from the data for the sample
+            var dataTree = anychart.data.tree(data, "as-table");
+
+            // create sunburst chart
+            var chart = anychart.sunburst(dataTree);
+
+            // set calculation mode
+            chart.calculationMode("ordinal-from-root");
+
+            // set chart title
+            // chart.title("Coffee Flavour Wheel");
+
+            // set settings for the penultimate level labels
+            chart
+              .level(-2)
+              .labels()
+              .position("radial");
+
+            // set chart labels settings
+            chart.labels().hAlign("center");
+
+            // set settings for leaves labels
+            chart
+              .leaves()
+              .labels()
+              .minFontSize(8)
+              .textOverflow("...");
+
+            // the fill specified in the data has priority
+            // set point fill
+            chart.fill(function() {
+              return anychart.color.darken(this.parentColor, 0.15);
+            });
+
+            // set container id for the chart
+            chart.container("container");
+            // initiate chart drawing
+            chart.draw();
+          }
+        );
+      });
+    }, 3000);
+    // end
   }
 };
 // window.scrollTo(x-coord, y-coord);
 </script>
 
 <style>
+#container {
+  width: 80em;
+  height: 47em;
+}
+.anychart-credits-logo {
+  display: none;
+}
+.anychart-credits-text {
+  color: white;
+}
+.coffee {
+  border-left: 4px solid #a1887f;
+}
 .coffee.burndi {
   border-left: 4px solid #66bb6a;
 }
@@ -218,6 +327,9 @@ export default {
 }
 /* Chips */
 
+.v-chip.title {
+  background: #a1887f;
+}
 .v-chip.burndi {
   background: #66bb6a;
 }
