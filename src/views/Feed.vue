@@ -3,18 +3,18 @@
     <h1 class="subheading grey--text">Coffee Feed</h1>
     <v-container class="my-5">
       <v-layout row wrap align-center class="mb-3">
-        <v-flex xs12 sm12 md4>
+        <v-flex xs12 sm12 md6>
           <v-tooltip top>
             <v-btn
               small
               flat
               color="grey"
-              @click="sortBy('created_at')"
-              :class="sortSwitch ? 'v-btn--active' : ''"
+              @click="buttons('methodSwitch')"
+              :class="methodSwitch ? 'v-btn--active' : ''"
               slot="activator"
             >
               <v-icon small left>list</v-icon>
-              <span class="caption text-lowercase">Coffee Feed</span>
+              <span class="caption text-lowercase">by method</span>
             </v-btn>
             <span>Most Recent Coffee</span>
           </v-tooltip>
@@ -23,8 +23,8 @@
               small
               flat
               color="grey"
-              @click="sortBy('coffee_name')"
-              :class="!sortSwitch ? 'v-btn--active' : ''"
+              @click="buttons('originSwitch')"
+              :class="originSwitch ? 'v-btn--active' : ''"
               slot="activator"
             >
               <v-icon small left>landscape</v-icon>
@@ -33,25 +33,18 @@
             <span>Search by Coffee Origin</span>
           </v-tooltip>
           <v-tooltip top>
-            <v-btn
-              :class="filteredByFavorite ? 'v-btn--active' : ''"
-              small
-              flat
-              color="grey"
-              @click="filteredByFavorite = !filteredByFavorite && searchCoffee('favorite')"
-              slot="activator"
-            >
+            <v-btn :class="false ? 'v-btn--active' : ''" small flat color="grey" slot="activator">
               <v-icon small left>account_box</v-icon>
               <span class="caption text-lowercase">By Username</span>
             </v-btn>
             <span>Search for Username</span>
           </v-tooltip>
         </v-flex>
-        <v-flex xs6 sm6 md3>
-          <v-btn class="right" color="accent" :to="{name: 'register'}">SEARCH</v-btn>
-        </v-flex>
-        <v-flex xs12 sm12 md5>
-          <v-text-field label="Search by Coffee Name" v-model="searchWord"></v-text-field>
+        <v-flex xs12 sm12 md6>
+          <v-text-field
+            :label="`Search by ${searchOption.charAt(0).toUpperCase() + searchOption.slice(1).replace('_', ' ')}`"
+            v-model="searchWord"
+          ></v-text-field>
         </v-flex>
       </v-layout>
       <v-card v-for="c in searchCoffee()" :key="c.id">
@@ -95,34 +88,50 @@ import { GET_ALL_COFFEE } from "@/store/actions.type";
 export default {
   data() {
     return {
-      user: "",
       searchWord: "",
-      filteredByFavorite: false,
-      sortSwitch: true
+      searchOption: "coffee_name",
+      methodSwitch: null,
+      originSwitch: null
     };
   },
   computed: {
     ...mapGetters(["allCoffee"])
   },
   methods: {
-    // sortBy(prop) {
-    //   if (prop === "created_at") {
-    //     this.coffee.sort((a, b) => (a[prop] > b[prop] ? -1 : 1));
-    //     this.sortSwitch = true;
-    //   } else {
-    //     this.coffee.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
-    //     this.sortSwitch = false;
-    //   }
-    // },
+    buttons(prop) {
+      switch (prop) {
+        case "methodSwitch":
+          if (this.methodSwitch) {
+            this.methodSwitch = false;
+            this.searchOption = "coffee_name";
+            break;
+          }
+          this.methodSwitch = true;
+          this.originSwitch = false;
+          this.searchOption = "processing_method";
+          break;
+        case "originSwitch":
+          if (this.originSwitch) {
+            this.originSwitch = false;
+            this.searchOption = "coffee_name";
+            break;
+          }
+          this.methodSwitch = false;
+          this.originSwitch = true;
+          this.searchOption = "origin";
+          break;
+      }
+    },
     searchCoffee() {
       return this.allCoffee.filter(el => {
-        return el.coffee_name.toLowerCase().includes(this.searchWord || "");
+        return el[this.searchOption]
+          .toLowerCase()
+          .includes(this.searchWord.toLowerCase());
       });
     }
   },
   created() {
-    this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id); // TODO: id is hard coded
-    // this.$store.dispatch(GET_USERS_COFFEE, this.$store.state.auth.user.id);
+    this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id);
   }
 };
 // window.scrollTo(x-coord, y-coord);
