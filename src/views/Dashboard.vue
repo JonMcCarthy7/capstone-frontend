@@ -48,11 +48,16 @@
           </v-tooltip>
         </v-flex>
         <v-flex xs12 sm12 md6>
-          <v-text-field label="Search by Coffee Name" @input="searchCoffee" v-model="searchWord"></v-text-field>
+          <v-text-field
+            append-icon="search"
+            label="Search by Coffee Name"
+            @input="searchCoffee"
+            v-model="searchWord"
+          ></v-text-field>
         </v-flex>
       </v-layout>
 
-      <v-card v-for="c in searchCoffee()" :key="c.id">
+      <v-card class="grey lighten-5" v-for="c in searchCoffee()" :key="c.id">
         <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
           <v-flex xs12 md4>
             <div class="caption grey--text">Coffee Name</div>

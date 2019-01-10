@@ -1,6 +1,6 @@
 <template>
-  <nav v>
-    <v-toolbar flat app>
+  <nav>
+    <v-toolbar flat app dark>
       <v-toolbar-side-icon v-if="isLogged" @click="drawer = !drawer" class="grey--text"></v-toolbar-side-icon>
       <v-toolbar-title class="text-uppercase grey--text">
         <span class="font-weight-light">Un</span>

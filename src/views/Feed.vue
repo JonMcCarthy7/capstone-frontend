@@ -16,7 +16,7 @@
               <v-icon small left>list</v-icon>
               <span class="caption text-lowercase">by method</span>
             </v-btn>
-            <span>Most Recent Coffee</span>
+            <span>Search By Method</span>
           </v-tooltip>
           <v-tooltip top>
             <v-btn
@@ -28,7 +28,7 @@
               slot="activator"
             >
               <v-icon small left>landscape</v-icon>
-              <span class="caption text-lowercase">By Origin</span>
+              <span class="caption text-lowercase">Search By Origin</span>
             </v-btn>
             <span>Search by Coffee Origin</span>
           </v-tooltip>
@@ -42,20 +42,21 @@
               slot="activator"
             >
               <v-icon small left>account_box</v-icon>
-              <span class="caption text-lowercase">By Username</span>
+              <span class="caption text-lowercase">Search By Username</span>
             </v-btn>
             <span>Search for Username</span>
           </v-tooltip>
         </v-flex>
         <v-flex xs12 sm12 md6>
           <v-text-field
+            append-icon="search"
             :label="`Search by ${searchOption.charAt(0).toUpperCase() + searchOption.slice(1).replace('_', ' ')}`"
             v-model="searchWord"
           ></v-text-field>
         </v-flex>
       </v-layout>
       <div v-if="!userSwitch">
-        <v-card v-for="c in searchCoffee()" :key="c.id">
+        <v-card class="grey lighten-5" v-for="c in searchCoffee()" :key="c.id">
           <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
             <v-flex xs12 sm3 md3>
               <div class="caption grey--text">Coffee Name</div>
@@ -88,11 +89,11 @@
         </v-card>
       </div>
       <div v-if="userSwitch && allUsers">
-        <v-card v-for="user in searchUsers()" :key="user.id">
+        <v-card class="grey lighten-5" v-for="user in searchUsers()" :key="user.id">
           <v-layout align-center justify-start row wrap class="pa-2 user">
             <v-flex xs8 sm8 md8>
-              <div class="headline my-1">
-                <v-icon fab medium color="accent">account_box</v-icon>
+              <div class="headline ml-1">
+                <v-icon fab medium color="primary">account_box</v-icon>
                 {{ user.username }}
               </div>
             </v-flex>

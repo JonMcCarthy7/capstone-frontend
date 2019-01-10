@@ -1,6 +1,8 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
-    <v-container grid-list-md>
+    <h1 class="subheading grey--text mt-1">Add Coffee</h1>
+
+    <v-container grid-list-lg>
       <v-layout row wrap>
         <v-flex xs12 md6>
           <v-text-field v-model="coffee_name" :rules="textRules" label="Coffee Name" required></v-text-field>
@@ -9,7 +11,6 @@
             :items="coffee_origins"
             :rules="[v => !!v || 'Item is required']"
             label="Coffee Origin"
-            prepend-icon="landscape"
             required
           ></v-autocomplete>
           <v-autocomplete
@@ -25,7 +26,7 @@
           <v-text-field type="number" v-model="altitude" :rules="textRules" label="Altitude"></v-text-field>
         </v-flex>
         <v-flex xs12 md6>
-          <v-textarea box rows="15" prepend-icon="notes" v-model="notes" name="notes" label="Notes"></v-textarea>
+          <v-textarea box rows="24" prepend-icon="notes" v-model="notes" name="notes" label="Notes"></v-textarea>
         </v-flex>
         <v-btn :disabled="!valid" @click="submit">submit</v-btn>
         <v-btn @click="clear">clear</v-btn>

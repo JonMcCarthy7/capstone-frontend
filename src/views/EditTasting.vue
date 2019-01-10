@@ -25,7 +25,10 @@
               multiple
               required
             ></v-autocomplete>
-            <v-switch v-model="tasting.tasting[0].favorite" label="Favorite "></v-switch>
+            <v-switch
+              v-model="tasting.tasting[0].favorite"
+              :label="`Favorite: ${tasting.tasting[0].favorite ? 'Yes' : 'No'}`"
+            ></v-switch>
             <p
               class="subheading grey--text text--darken-2"
             >Tasting Date: {{formattedDate(tasting.tasting[0].tasting_date)}}</p>
@@ -36,23 +39,51 @@
               <span class="subheading grey--text text--darken-2">Overall Rating</span>
               <v-rating hover large half-increments v-model="tasting.tasting[0].rating"></v-rating>
               <v-divider class="my-3"></v-divider>
-              <p class="mt-2 subheading grey--text text--darken-2">Body: {{tasting.tasting[0].body}}</p>
-              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].body"></v-slider>
+              <p class="mt-2 subheading grey--text text--darken-2">Body {{tasting.tasting[0].body}}</p>
+              <v-slider
+                ticks
+                tick-size="1"
+                :min="0"
+                :max="5"
+                :step="0.5"
+                v-model="tasting.tasting[0].body"
+              ></v-slider>
               <p
                 class="mt-2 subheading grey--text text--darken-2"
-              >Acidity: {{tasting.tasting[0].acidity}}</p>
+              >Acidity {{tasting.tasting[0].acidity}}</p>
 
-              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].acidity"></v-slider>
+              <v-slider
+                ticks
+                tick-size="1"
+                :min="0"
+                :max="5"
+                :step="0.5"
+                v-model="tasting.tasting[0].acidity"
+              ></v-slider>
               <p
                 class="mt-2 subheading grey--text text--darken-2"
-              >Smoothness: {{tasting.tasting[0].smoothness}}</p>
+              >Smoothness {{tasting.tasting[0].smoothness}}</p>
 
-              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].smoothness"></v-slider>
+              <v-slider
+                ticks
+                tick-size="1"
+                :min="0"
+                :max="5"
+                :step="0.5"
+                v-model="tasting.tasting[0].smoothness"
+              ></v-slider>
               <p
                 class="mt-2 subheading grey--text text--darken-2"
-              >Sweetness: {{tasting.tasting[0].sweetness}}</p>
+              >Sweetness {{tasting.tasting[0].sweetness}}</p>
 
-              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].sweetness"></v-slider>
+              <v-slider
+                ticks
+                tick-size="1"
+                :min="0"
+                :max="5"
+                :step="0.5"
+                v-model="tasting.tasting[0].sweetness"
+              ></v-slider>
             </v-card>
           </v-flex>
         </v-layout>
