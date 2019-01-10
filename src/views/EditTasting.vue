@@ -1,7 +1,21 @@
 <template>
   <div v-if="tasting">
+    <h1 class="subheading grey--text mt-1">Edit Tasting</h1>
+    <div class="right">
+      <v-dialog width="80em">
+        <v-btn slot="activator">
+          <v-icon>donut_large</v-icon>
+        </v-btn>
+        <v-card>
+          <v-container grid-list-lg>
+            <v-layout align-center justify-center row wrap>
+              <div id="container"></div>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-dialog>
+    </div>
     <v-form ref="form" v-model="valid" lazy-validation>
-      <h1 class="subheading grey--text mt-1">Edit Tasting</h1>
       <v-container grid-list-lg>
         <v-layout row wrap>
           <v-flex xs12 md6>
@@ -205,6 +219,56 @@ export default {
         )
           this.$router.go(-1);
       });
+    setTimeout(() => {
+      anychart.onDocumentReady(function() {
+        // The data used in this sample can be obtained from the CDN
+        // https://cdn.anychart.com/samples/sunburst-charts/coffee-flavour-wheel/data.json
+        anychart.data.loadJsonFile(
+          "https://cdn.anychart.com/samples/sunburst-charts/coffee-flavour-wheel/data.json",
+          function(data) {
+            // makes tree from the data for the sample
+            var dataTree = anychart.data.tree(data, "as-table");
+
+            // create sunburst chart
+            var chart = anychart.sunburst(dataTree);
+
+            // set calculation mode
+            chart.calculationMode("ordinal-from-root");
+
+            // set chart title
+            // chart.title("Coffee Flavour Wheel");
+
+            // set settings for the penultimate level labels
+            chart
+              .level(-2)
+              .labels()
+              .position("radial");
+
+            // set chart labels settings
+            chart.labels().hAlign("center");
+
+            // set settings for leaves labels
+            chart
+              .leaves()
+              .labels()
+              .minFontSize(8)
+              .textOverflow("...");
+
+            // the fill specified in the data has priority
+            // set point fill
+            chart.fill(function() {
+              return anychart.color.darken(this.parentColor, 0.15);
+            });
+
+            // set container id for the chart
+            chart.container("container");
+            // initiate chart drawing
+            chart.draw();
+          }
+        );
+      });
+    }, 3000);
+    // end
   }
 };
 </script>
