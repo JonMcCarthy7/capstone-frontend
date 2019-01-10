@@ -3,7 +3,7 @@
     <h1 class="subheading grey--text">Coffee Feed</h1>
     <v-container class="my-5">
       <v-layout row wrap align-center class="mb-3">
-        <v-flex xs12 sm12 md6>
+        <v-flex xs12 sm12 md4>
           <v-tooltip top>
             <v-btn
               small
@@ -33,12 +33,22 @@
             <span>Search by Coffee Origin</span>
           </v-tooltip>
           <v-tooltip top>
-            <v-btn :class="false ? 'v-btn--active' : ''" small flat color="grey" slot="activator">
+            <v-btn
+              @click="buttons('userSwitch')"
+              :class="userSwitch ? 'v-btn--active' : ''"
+              small
+              flat
+              color="grey"
+              slot="activator"
+            >
               <v-icon small left>account_box</v-icon>
               <span class="caption text-lowercase">By Username</span>
             </v-btn>
             <span>Search for Username</span>
           </v-tooltip>
+        </v-flex>
+        <v-flex md2>
+          <v-btn v-if="userSwitch" class="right" color="accent">Search</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md6>
           <v-text-field
@@ -47,37 +57,39 @@
           ></v-text-field>
         </v-flex>
       </v-layout>
-      <v-card v-for="c in searchCoffee()" :key="c.id">
-        <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
-          <v-flex xs12 md4>
-            <div class="caption grey--text">Coffee Name</div>
-            <div class="headline my-1">{{ c.coffee_name }}</div>
-          </v-flex>
-          <v-flex xs12 sm4 md3>
-            <div class="caption grey--text">Processing Method</div>
-            <div class="title mb-1 mt-2">{{ c.processing_method }}</div>
-          </v-flex>
-          <v-flex xs12 sm4 md3>
-            <div class="caption grey--text">Origin</div>
-            <v-chip
-              small
-              :class="`title ${c.origin.replace(' ', '-').toLowerCase()} white--text my-2 `"
-            >{{ c.origin }}</v-chip>
-          </v-flex>
-          <v-flex xs12 sm4 md2>
-            <div class="right">
-              <v-btn
-                color="accent"
-                :to="{name: 'coffee', params:{users_id: c.users_id, coffee_id: c.id}}"
-                fab
-              >
-                <v-icon>forward</v-icon>
-              </v-btn>
-            </div>
-          </v-flex>
-        </v-layout>
-        <v-divider></v-divider>
-      </v-card>
+      <div v-if="!userSwitch">
+        <v-card v-for="c in searchCoffee()" :key="c.id">
+          <v-layout row wrap :class="`pa-3 coffee ${c.origin.replace(' ', '-').toLowerCase()}`">
+            <v-flex xs12 md4>
+              <div class="caption grey--text">Coffee Name</div>
+              <div class="headline my-1">{{ c.coffee_name }}</div>
+            </v-flex>
+            <v-flex xs12 sm4 md3>
+              <div class="caption grey--text">Processing Method</div>
+              <div class="title mb-1 mt-2">{{ c.processing_method }}</div>
+            </v-flex>
+            <v-flex xs12 sm4 md3>
+              <div class="caption grey--text">Origin</div>
+              <v-chip
+                small
+                :class="`title ${c.origin.replace(' ', '-').toLowerCase()} white--text my-2 `"
+              >{{ c.origin }}</v-chip>
+            </v-flex>
+            <v-flex xs12 sm4 md2>
+              <div class="right">
+                <v-btn
+                  color="accent"
+                  :to="{name: 'coffee', params:{users_id: c.users_id, coffee_id: c.id}}"
+                  fab
+                >
+                  <v-icon>forward</v-icon>
+                </v-btn>
+              </div>
+            </v-flex>
+          </v-layout>
+          <v-divider></v-divider>
+        </v-card>
+      </div>
     </v-container>
   </div>
 </template>
@@ -90,8 +102,9 @@ export default {
     return {
       searchWord: "",
       searchOption: "coffee_name",
-      methodSwitch: null,
-      originSwitch: null
+      methodSwitch: false,
+      originSwitch: false,
+      userSwitch: false
     };
   },
   computed: {
@@ -106,8 +119,9 @@ export default {
             this.searchOption = "coffee_name";
             break;
           }
-          this.methodSwitch = true;
+          this.userSwitch = false;
           this.originSwitch = false;
+          this.methodSwitch = true;
           this.searchOption = "processing_method";
           break;
         case "originSwitch":
@@ -116,18 +130,40 @@ export default {
             this.searchOption = "coffee_name";
             break;
           }
+          this.userSwitch = false;
           this.methodSwitch = false;
           this.originSwitch = true;
           this.searchOption = "origin";
           break;
+        case "userSwitch":
+          console.log(this.userSwitch);
+
+          if (this.userSwitch) {
+            this.userSwitch = false;
+            this.searchOption = "coffee_name";
+            break;
+          }
+          this.methodSwitch = false;
+          this.originSwitch = false;
+          this.userSwitch = true;
+          this.searchOption = "username";
+          break;
       }
     },
     searchCoffee() {
-      return this.allCoffee.filter(el => {
-        return el[this.searchOption]
-          .toLowerCase()
-          .includes(this.searchWord.toLowerCase());
-      });
+      if (this.searchOption) {
+        return this.allCoffee.filter(el => {
+          return el[this.searchOption]
+            .toLowerCase()
+            .includes(this.searchWord.toLowerCase());
+        });
+      } else {
+        return this.allCoffee.filter(el => {
+          return el.coffee_name
+            .toLowerCase()
+            .includes(this.searchWord.toLowerCase());
+        });
+      }
     }
   },
   created() {
