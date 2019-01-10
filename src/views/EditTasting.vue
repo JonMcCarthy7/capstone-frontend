@@ -1,7 +1,8 @@
 <template>
   <div v-if="tasting">
     <v-form ref="form" v-model="valid" lazy-validation>
-      <v-container grid-list-md>
+      <h1 class="subheading grey--text mt-1">Edit Tasting</h1>
+      <v-container grid-list-lg>
         <v-layout row wrap>
           <v-flex xs12 md6>
             <v-text-field
@@ -24,53 +25,58 @@
               multiple
               required
             ></v-autocomplete>
-            <v-card class="pa-3">
-              <span>Overall Rating</span>
-              <v-rating hover large half-increments v-model="tasting.tasting[0].rating"></v-rating>
-              <v-divider class="my-3"></v-divider>
-              <p class="mt-2">Body: {{tasting.tasting[0].body}}</p>
-              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].body"></v-slider>
-              <p class="mt-2">Acidity: {{tasting.tasting[0].acidity}}</p>
-
-              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].acidity"></v-slider>
-              <p class="mt-2">Smoothness: {{tasting.tasting[0].smoothness}}</p>
-
-              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].smoothness"></v-slider>
-              <p class="mt-2">Sweetness: {{tasting.tasting[0].sweetness}}</p>
-
-              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].sweetness"></v-slider>
-
-              <v-switch
-                v-model="tasting.tasting[0].favorite"
-                :label="`Favorite: ${tasting.tasting[0].favorite ? 'Yes' : 'No'}`"
-              ></v-switch>
-              <!-- :label="`Favorite: ${favorite ? <v-icon small>check</v-icon> : <v-icon small>close</v-icon>}`" -->
-            </v-card>
-            <p>Tasting Date: {{formattedDate(tasting.tasting[0].tasting_date)}}</p>
+            <v-switch v-model="tasting.tasting[0].favorite" label="Favorite "></v-switch>
+            <p
+              class="subheading grey--text text--darken-2"
+            >Tasting Date: {{formattedDate(tasting.tasting[0].tasting_date)}}</p>
             <v-date-picker v-model="tasting_date" landscape></v-date-picker>
           </v-flex>
           <v-flex xs12 md6>
+            <v-card class="pa-3 grey lighten-5">
+              <span class="subheading grey--text text--darken-2">Overall Rating</span>
+              <v-rating hover large half-increments v-model="tasting.tasting[0].rating"></v-rating>
+              <v-divider class="my-3"></v-divider>
+              <p class="mt-2 subheading grey--text text--darken-2">Body: {{tasting.tasting[0].body}}</p>
+              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].body"></v-slider>
+              <p
+                class="mt-2 subheading grey--text text--darken-2"
+              >Acidity: {{tasting.tasting[0].acidity}}</p>
+
+              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].acidity"></v-slider>
+              <p
+                class="mt-2 subheading grey--text text--darken-2"
+              >Smoothness: {{tasting.tasting[0].smoothness}}</p>
+
+              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].smoothness"></v-slider>
+              <p
+                class="mt-2 subheading grey--text text--darken-2"
+              >Sweetness: {{tasting.tasting[0].sweetness}}</p>
+
+              <v-slider :min="0" :max="5" :step="0.5" v-model="tasting.tasting[0].sweetness"></v-slider>
+            </v-card>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex xs12 sm12 md6>
             <v-textarea
               box
               rows="15"
-              prepend-icon="notes"
               v-model="tasting.tasting[0].roasting_profile"
               name="roasting_profile"
               label="Roasting Profile"
             ></v-textarea>
+          </v-flex>
+          <v-flex xs12 sm12 md6>
             <v-textarea
               box
               rows="15"
-              prepend-icon="notes"
               v-model="tasting.tasting[0].description"
               name="description"
               label="Description"
             ></v-textarea>
           </v-flex>
-
-          <v-btn :disabled="!valid" @click="submit">submit</v-btn>
-          <v-btn @click="clear">clear</v-btn>
         </v-layout>
+        <v-btn :disabled="!valid" @click="submit">submit</v-btn>
       </v-container>
     </v-form>
   </div>
