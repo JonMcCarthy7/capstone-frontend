@@ -1,17 +1,16 @@
 <template>
   <div v-if="coffee">
-    <h1 class="subheading grey--text mb-5">Coffee</h1>
-    <v-container class="my-5" grid-list-md>
+    <h1 class="subheading grey--text mt-1">Coffee</h1>
+    <v-container class="my-3" grid-list-md>
       <v-layout row wrap>
         <v-flex xs12 sm12 md12>
           <v-card color class="grey--text">
             <v-card-title primary-title class="grey lighten-2">
               <v-layout align-center justify-space-between row wrap fill-height>
-                <div class="display-2">{{coffee.coffee_name}}</div>
-
+                <div class="display-2 grey--text text--darken-2">{{coffee.coffee_name}}</div>
                 <v-speed-dial v-if="currentUser" ml-3 absolute dark right small direction="bottom">
-                  <v-btn slot="activator" color="blue darken-2" dark fab>
-                    <v-icon>account_circle</v-icon>
+                  <v-btn slot="activator" color="primary darken-2" dark fab>
+                    <v-icon>settings</v-icon>
                     <v-icon>close</v-icon>
                   </v-btn>
                   <v-btn
@@ -19,7 +18,7 @@
                     fab
                     dark
                     small
-                    color="green"
+                    color="secondary"
                   >
                     <v-icon>edit</v-icon>
                   </v-btn>
@@ -28,7 +27,7 @@
                     fab
                     dark
                     small
-                    color="indigo"
+                    color="accent"
                   >
                     <v-icon>add</v-icon>
                   </v-btn>
@@ -38,21 +37,34 @@
                 </v-speed-dial>
               </v-layout>
             </v-card-title>
-
-            <v-layout row wrap>
-              <v-flex xs12 sm12 md12>
-                <v-card-title primary-title>
-                  <div>
-                    <p>{{coffee.origin}}</p>
-                    <p>{{coffee.shop}}</p>
-                    <p>{{coffee.region}}</p>
-                    <p>{{coffee.altitude}}</p>
-                    <p>{{coffee.processing_method}}</p>
-                    <p>{{coffee.varietal}}</p>
-                    <p>{{coffee.favorite ? "Favorite: Yes" : "Favorite: No"}}</p>
-                    <p>{{coffee.notes}}</p>
-                  </div>
-                </v-card-title>
+            <v-layout row wrap grid-list-md>
+              <v-flex xs12 sm12 md5 pa-3>
+                <div class="caption grey--text">Origin</div>
+                <div class="headline grey--text text--darken-2 ml-3 mb-3">{{coffee.origin}}</div>
+                <div class="caption grey--text">Processing Method</div>
+                <div
+                  class="headline grey--text text--darken-2 ml-3 mb-3"
+                >{{coffee.processing_method}}</div>
+                <div class="caption grey--text">Altitude</div>
+                <div class="headline grey--text text--darken-2 ml-3 mb-3">{{coffee.altitude}} ft.</div>
+                <div class="caption grey--text">Region</div>
+                <div class="headline grey--text text--darken-2 ml-3 mb-3">{{coffee.region}}</div>
+                <div class="caption grey--text">Varietal</div>
+                <div class="headline grey--text text--darken-2 ml-3 mb-3">{{coffee.varietal}}</div>
+                <div class="caption grey--text">Coffee Shop</div>
+                <div class="headline grey--text text--darken-2 ml-3 mb-3">{{coffee.shop}}</div>
+                <div class="headline grey--text text--darken-2">
+                  Favorite
+                  <span v-if="coffee.favorite">
+                    <v-icon>check</v-icon>
+                  </span>
+                  <span v-else>
+                    <v-icon>close</v-icon>
+                  </span>
+                </div>
+              </v-flex>
+              <v-flex xs12 sm12 md7 pa-3>
+                <p class="grey--text text--darken-2 subheading">{{coffee.notes}}</p>
               </v-flex>
             </v-layout>
           </v-card>
@@ -65,7 +77,7 @@
       <v-timeline dense clipped>
         <div v-for="t in tastings" :key="t.id">
           <v-layout row wrap>
-            <v-flex xs12>
+            <v-flex xs12 sm12 md12>
               <v-timeline-item class="mb-3" medium>
                 <v-layout align-center row wrap>
                   <v-flex xs12 sm3 md3>
@@ -76,7 +88,12 @@
                       small
                     >{{formattedDate(t.tasting_date)}}</v-chip>
                   </v-flex>
-                  <v-flex xs12 sm3 md3 class>Brew Method: {{t.brew_method}}</v-flex>
+                  <v-flex
+                    xs12
+                    sm3
+                    md3
+                    class="title grey--text text--darken-2"
+                  >Brew Method: {{t.brew_method}}</v-flex>
                   <v-flex xs12 sm3 md3>
                     <v-rating :value="Number(t.rating)" medium readonly></v-rating>
                   </v-flex>
@@ -97,8 +114,8 @@
                               small
                               direction="bottom"
                             >
-                              <v-btn slot="activator" color="blue darken-2" dark fab>
-                                <v-icon>account_circle</v-icon>
+                              <v-btn slot="activator" color="primary darken-2" dark fab>
+                                <v-icon>settings</v-icon>
                                 <v-icon>close</v-icon>
                               </v-btn>
                               <v-btn
@@ -106,7 +123,7 @@
                                 fab
                                 dark
                                 small
-                                color="green"
+                                color="secondary"
                               >
                                 <v-icon>edit</v-icon>
                               </v-btn>
@@ -114,18 +131,20 @@
                                 <v-icon>delete</v-icon>
                               </v-btn>
                             </v-speed-dial>
-                            <div class="display-2">{{t.brew_method}}</div>
+                            <div class="display-2 grey--text text--darken-2">{{t.brew_method}}</div>
                             <v-rating :value="Number(t.rating)" large readonly></v-rating>
                           </v-layout>
                         </v-card-title>
-                        <v-container grid-list-md>
-                          <v-layout row wrap mt-3>
-                            <v-flex xs12 sm12 md6 class="px-3">
-                              <p class="mt-2">Body: {{t.body}}</p>
+                        <v-container grid-list-lg>
+                          <v-layout row wrap>
+                            <v-flex xs12 sm12 md6>
+                              <p class="title grey--text text--darken-2">Body {{t.body}}</p>
                               <v-slider readonly :min="0" :max="5" :step="0.5" :value="t.body"></v-slider>
-                              <p class="mt-2">Acidity: {{t.acidity}}</p>
+                              <p class="mt-2 title grey--text text--darken-2">Acidity {{t.acidity}}</p>
                               <v-slider readonly :min="0" :max="5" :step="0.5" :value="t.acidity"></v-slider>
-                              <p class="mt-2">Smoothness: {{t.smoothness}}</p>
+                              <p
+                                class="mt-2 title grey--text text--darken-2"
+                              >Smoothness {{t.smoothness}}</p>
                               <v-slider
                                 readonly
                                 :min="0"
@@ -133,38 +152,48 @@
                                 :step="0.5"
                                 :value="t.smoothness"
                               ></v-slider>
-                              <p class="mt-2">Sweetness: {{t.sweetness}}</p>
+                              <p
+                                class="mt-2 title grey--text text--darken-2"
+                              >Sweetness {{t.sweetness}}</p>
                               <v-slider readonly :min="0" :max="5" :step="0.5" :value="t.sweetness"></v-slider>
-
-                              <p>
+                            </v-flex>
+                            <v-flex xs12 sm12 md6>
+                              <div class="mb-3 title grey--text text--darken-2">
                                 Favorite
                                 <span v-if="t.favorite">
-                                  <v-icon>check</v-icon>
+                                  <v-btn fab disabled>
+                                    <v-icon>check</v-icon>
+                                  </v-btn>
                                 </span>
                                 <span v-else>
-                                  <v-icon>close</v-icon>
+                                  <v-btn fab disabled>
+                                    <v-icon>close</v-icon>
+                                  </v-btn>
                                 </span>
-                              </p>
-                              <p>Tasting Date: {{formattedDate(t.tasting_date)}}</p>
+                              </div>
+                              <div
+                                class="mb-4 title grey--text text--darken-2"
+                              >Tasting Date: {{formattedDate(t.tasting_date)}}</div>
+
+                              <div class="title grey--text text--darken-2">
+                                Tasting Notes
+                                <span v-for="(tn, index) in t.array_agg" :key="index">
+                                  <v-chip>{{tn}}</v-chip>
+                                </span>
+                              </div>
+                            </v-flex>
+                          </v-layout>
+                          <v-divider></v-divider>
+                          <v-layout row wrap>
+                            <v-flex xs12 sm12 md6 class="px-3">
+                              <div class="mb-1 title grey--text text--darken-2">Roasting Profile</div>
+
+                              <p class="grey--text text--darken-2 subheading">{{t.roasting_profile}}</p>
                             </v-flex>
                             <v-flex xs12 sm12 md6 class="px-3">
-                              <p>{{t.roasting_profile}}</p>
-                              <p>{{t.description}}</p>
+                              <div class="mb-1 title grey--text text--darken-2">Description</div>
+                              <p class="grey--text text--darken-2 subheading">{{t.description}}</p>
                             </v-flex>
-                            <v-divider></v-divider>
-                            <v-layout row wrap>
-                              <v-flex xs12 sm12 md12 class="px-3">
-                                <p>
-                                  Tasting Notes:
-                                  <span
-                                    v-for="(tn, index) in t.array_agg"
-                                    :key="index"
-                                  >
-                                    <v-chip>{{tn}}</v-chip>
-                                  </span>
-                                </p>
-                              </v-flex>
-                            </v-layout>
                           </v-layout>
                         </v-container>
                       </v-card>

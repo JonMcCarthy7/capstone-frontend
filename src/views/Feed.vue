@@ -1,9 +1,9 @@
 <template>
   <div v-if="allCoffee.length > 0">
-    <h1 class="subheading grey--text">Coffee Feed</h1>
-    <v-container class="my-5">
+    <h1 class="subheading grey--text mt-1">Coffee Feed</h1>
+    <v-container class="my-3">
       <v-layout row wrap align-center class="mb-3">
-        <v-flex xs12 sm12 md4>
+        <v-flex xs12 sm12 md6>
           <v-tooltip top>
             <v-btn
               small
@@ -46,9 +46,6 @@
             </v-btn>
             <span>Search for Username</span>
           </v-tooltip>
-        </v-flex>
-        <v-flex xs12 sm12 md2>
-          <!-- <v-btn v-if="userSwitch" class="right" color="accent">Search</v-btn> -->
         </v-flex>
         <v-flex xs12 sm12 md6>
           <v-text-field

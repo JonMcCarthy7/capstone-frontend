@@ -1,7 +1,7 @@
 <template>
   <div v-if="coffee.length > 0">
-    <h1 class="subheading grey--text">Dashboard</h1>
-    <v-container class="my-5">
+    <h1 class="subheading grey--text mt-1">Dashboard</h1>
+    <v-container class="my-3">
       <v-layout row wrap align-center class="mb-3">
         <v-flex xs12 sm12 md6>
           <v-tooltip top>
