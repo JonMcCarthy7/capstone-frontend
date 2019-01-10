@@ -62,7 +62,11 @@ export default {
       drawer: false,
       links: [
         { icon: "list", text: "Feed", route: "/" },
-        { icon: "dashboard", text: "Dashboard", route: "/dashboard" },
+        {
+          icon: "dashboard",
+          text: "Dashboard",
+          route: `/dashboard/${this.$store.state.auth.user.id}`
+        },
         { icon: "add", text: "Add Coffee", route: "/add_coffee" }
       ]
     };

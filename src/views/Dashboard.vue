@@ -124,7 +124,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch(GET_USERS_COFFEE, this.$store.state.auth.user.id);
+    this.$store.dispatch(GET_USERS_COFFEE, this.$route.params.users_id);
     // this.$store.dispatch(GET_USERS_COFFEE, this.$store.state.auth.user.id);
   }
 };

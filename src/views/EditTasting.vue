@@ -138,7 +138,10 @@ export default {
           .then(() =>
             this.$router.push({
               name: "coffee",
-              params: this.$router.history.current.params.coffee_id
+              params: {
+                users_id: this.$store.state.auth.user.id,
+                coffee_id: this.$router.history.current.params.coffee_id
+              }
             })
           )
           .catch(err => console.log(err));

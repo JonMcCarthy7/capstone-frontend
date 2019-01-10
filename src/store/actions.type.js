@@ -22,3 +22,6 @@ export const ADD_TASTING = "ADD_TASTING";
 
 // FEED
 export const GET_ALL_COFFEE = "GET_ALL_COFFEE";
+
+// USER
+export const GET_USERS = "GET_USERS";

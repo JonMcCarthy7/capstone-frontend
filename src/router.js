@@ -33,7 +33,7 @@ export default new Router({
       }
     },
     {
-      path: "/dashboard",
+      path: "/dashboard/:users_id",
       name: "dashboard",
       component: Dashboard,
       meta: {

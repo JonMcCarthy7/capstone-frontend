@@ -4,6 +4,8 @@ import auth from "./auth";
 import coffee from "./coffee";
 import tasting from "./tasting";
 import feed from "./feed";
+import user from "./user";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -11,6 +13,7 @@ export default new Vuex.Store({
     auth,
     coffee,
     tasting,
-    feed
+    feed,
+    user
   }
 });

@@ -13,3 +13,6 @@ export const COFFEE_TASTING = "COFFEE_TASTING";
 // TASTING
 export const SET_TASTING_NOTES = "SET_TASTING_NOTES";
 export const DELETE_TASTING = "DELETE_TASTING";
+
+// USERS
+export const ADD_USERS = "ADD_USERS";

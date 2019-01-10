@@ -48,7 +48,7 @@
           </v-tooltip>
         </v-flex>
         <v-flex md2>
-          <v-btn v-if="userSwitch" class="right" color="accent">Search</v-btn>
+          <!-- <v-btn v-if="userSwitch" class="right" color="accent">Search</v-btn> -->
         </v-flex>
         <v-flex xs12 sm12 md6>
           <v-text-field
@@ -79,9 +79,28 @@
               <div class="right">
                 <v-btn
                   color="accent"
-                  :to="{name: 'coffee', params:{users_id: c.users_id, coffee_id: c.id}}"
+                  :to="{name: 'coffee', params: {users_id: c.users_id, coffee_id: c.id}}"
                   fab
                 >
+                  <v-icon>forward</v-icon>
+                </v-btn>
+              </div>
+            </v-flex>
+          </v-layout>
+          <v-divider></v-divider>
+        </v-card>
+      </div>
+      <div v-if="userSwitch && allUsers">
+        <v-card v-for="user in searchUsers()" :key="user.id">
+          <v-layout row wrap class="pa-3">
+            <v-flex xs6 sm6 md6>
+              <div class="caption grey--text">Username</div>
+              <div class="headline my-1 ml-2">{{ user.username }}</div>
+            </v-flex>
+
+            <v-flex xs12 sm6 md6>
+              <div class="right">
+                <v-btn color="accent" :to="{name: 'dashboard', params: {users_id: user.id}}" fab>
                   <v-icon>forward</v-icon>
                 </v-btn>
               </div>
@@ -96,7 +115,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { GET_ALL_COFFEE } from "@/store/actions.type";
+import { GET_ALL_COFFEE, GET_USERS } from "@/store/actions.type";
 export default {
   data() {
     return {
@@ -108,7 +127,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["allCoffee"])
+    ...mapGetters(["allCoffee", "allUsers"])
   },
   methods: {
     buttons(prop) {
@@ -164,10 +183,18 @@ export default {
             .includes(this.searchWord.toLowerCase());
         });
       }
+    },
+    searchUsers() {
+      return this.allUsers.filter(el => {
+        return el.username
+          .toLowerCase()
+          .includes(this.searchWord.toLowerCase());
+      });
     }
   },
   created() {
     this.$store.dispatch(GET_ALL_COFFEE, this.$store.state.auth.user.id);
+    this.$store.dispatch(GET_USERS, this.$store.state.auth.user.id);
   }
 };
 // window.scrollTo(x-coord, y-coord);

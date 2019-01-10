@@ -209,7 +209,12 @@ export default {
           users_id: this.$store.state.auth.user.id,
           coffee_id: this.$route.params.coffee_id
         })
-        .then(() => this.$router.push({ name: "dashboard" }))
+        .then(() =>
+          this.$router.push({
+            name: "dashboard",
+            params: { users_id: this.$store.state.auth.user.id }
+          })
+        )
         .catch(err => console.log(err));
     },
     deleteTasting(id) {
